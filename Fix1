@@ -1,0 +1,28 @@
+javascript:(function(){
+  if(!window.csvData) {
+    window.csvData = "timestamp,title\n";  // nagłówek CSV
+  }
+  if(!window.csvIntervalId) {
+    window.csvIntervalId = setInterval(() => {
+      const title = document.title.replace(/"/g, '""'); // escape cudzysłowy
+      const timestamp = new Date().toISOString();
+      window.csvData += `"${timestamp}","${title}"\n`;
+
+      // Tworzenie i pobieranie pliku CSV
+      const blob = new Blob([window.csvData], {type: 'text/csv;charset=utf-8;'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "titles.csv";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+
+      console.log(`[${timestamp}] Zapisano tytuł: ${title}`);
+    }, 5000);
+    console.log("Uruchomiono automatyczne zapisywanie tytułu co 5 sekund.");
+  } else {
+    console.log("Już działa zapis co 5 sekund.");
+  }
+})();
