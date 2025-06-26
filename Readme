@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test zapytania do Grafany</title>
+</head>
+<body>
+    <h1>Test pobierania danych z lokalnego API</h1>
+    <button onclick="fetchData()">Sprawdź dane</button>
+    <pre id="output">Oczekuję na dane...</pre>
+
+    <script>
+        function fetchData() {
+            fetch("http://192.168.0.100:3000/api/health")  // PRZYKŁAD adresu API Grafany
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error("Błąd HTTP: " + response.status);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    document.getElementById("output").textContent = JSON.stringify(data, null, 2);
+                })
+                .catch(error => {
+                    document.getElementById("output").textContent = "Błąd: " + error;
+                });
+        }
+    </script>
+</body>
+</html>
