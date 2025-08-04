@@ -1,0 +1,144 @@
+superset-deployment/
+├── docker/
+│   └── Dockerfile
+├── requirements-extra.txt
+├── superset_config.py
+├── values.yaml
+🔧 1. docker/Dockerfile
+dockerfile
+Kopiuj
+Edytuj
+FROM apache/superset:2.1.0
+
+USER root
+
+RUN apt-get update && apt-get install -y \
+  gcc g++ unixodbc-dev libsasl2-dev libldap2-dev libssl-dev \
+  && apt-get clean
+
+COPY requirements-extra.txt /app/requirements-extra.txt
+RUN pip install --no-cache-dir -r /app/requirements-extra.txt
+
+COPY superset_config.py /app/pythonpath/superset_config.py
+
+RUN mkdir -p /app/pythonpath && \
+    chmod -R g+w /app /app/pythonpath && \
+    chgrp -R 0 /app /app/pythonpath
+
+USER 1001
+📦 2. requirements-extra.txt
+txt
+Kopiuj
+Edytuj
+pyodbc==5.1.0
+nzpy==1.4
+⚙️ 3. superset_config.py
+python
+Kopiuj
+Edytuj
+ROW_LIMIT = 50000
+SUPERSET_WEBSERVER_TIMEOUT = 300
+🧪 4. Budowa i push obrazu
+bash
+Kopiuj
+Edytuj
+cd docker
+docker build -t your-registry.local/superset-custom:latest .
+docker push your-registry.local/superset-custom:latest
+🔑 5. OpenShift: Utwórz namespace i ServiceAccount
+bash
+Kopiuj
+Edytuj
+oc new-project superset
+oc create sa superset-sa -n superset
+oc adm policy add-scc-to-user nonroot -z superset-sa -n superset
+Jeśli masz prywatny rejestr:
+
+bash
+Kopiuj
+Edytuj
+oc create secret docker-registry superset-pull-secret \
+  --docker-server=your-registry.local \
+  --docker-username=admin \
+  --docker-password=yourpassword \
+  --docker-email=you@example.com \
+  -n superset
+🧾 6. values.yaml
+yaml
+Kopiuj
+Edytuj
+image:
+  repository: your-registry.local/superset-custom
+  tag: latest
+  pullPolicy: Always
+
+imagePullSecrets:
+  - name: superset-pull-secret
+
+env:
+  SUPERSET_ENV: production
+  PYTHONPATH: "/app/pythonpath"
+
+superset:
+  init:
+    enabled: true
+    adminUser:
+      username: admin
+      firstname: Superset
+      lastname: Admin
+      email: admin@example.com
+      password: SuperSecret123
+  configOverrides:
+    superset_config.py: |
+      ROW_LIMIT = 50000
+      SUPERSET_WEBSERVER_TIMEOUT = 300
+
+celery:
+  enabled: true
+
+vite:
+  enabled: true
+
+redis:
+  enabled: true
+  auth:
+    enabled: false
+  master:
+    persistence:
+      enabled: true
+      size: 2Gi
+
+postgresql:
+  enabled: true
+  auth:
+    username: superset
+    password: superset
+    database: superset
+  primary:
+    persistence:
+      enabled: true
+      size: 5Gi
+
+persistence:
+  enabled: true
+  size: 10Gi
+
+serviceAccount:
+  create: false
+  name: superset-sa
+🚀 7. Instalacja Superseta przez Helm
+bash
+Kopiuj
+Edytuj
+helm repo add apache https://apache.github.io/superset
+helm repo update
+
+helm upgrade --install superset apache/superset \
+  -n superset \
+  -f values.yaml
+🌐 8. Wystawienie Route
+bash
+Kopiuj
+Edytuj
+oc expose service superset -n superset
+oc get route -n superset
