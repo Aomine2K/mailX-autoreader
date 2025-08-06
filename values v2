@@ -1,0 +1,65 @@
+image:
+  repository: your-registry/superset-custom
+  tag: latest
+  pullPolicy: IfNotPresent
+
+# Domyślny użytkownik OpenShift
+securityContext:
+  runAsUser: 1001
+  fsGroup: 1001
+
+# Inicjalizacja Superseta (tworzenie bazy, użytkowników itd.)
+superset:
+  init:
+    enabled: true
+
+  configOverrides:
+    superset_config.py: |
+      ROW_LIMIT = 50000
+      FEATURE_FLAGS = {
+          "DASHBOARD_NATIVE_FILTERS": True,
+          "ALERT_REPORTS": True,
+          "ENABLE_TEMPLATE_PROCESSING": True,
+          "SCHEDULED_QUERIES": True,
+          "ENABLE_REACT_CRUD_VIEWS": True,
+      }
+
+extraEnv:
+  - name: PYTHONPATH
+    value: /app/pythonpath
+
+# Redis jako broker do Celery
+redis:
+  enabled: true
+  architecture: standalone
+  auth:
+    enabled: false
+
+# PostgreSQL jako backend Superseta
+postgresql:
+  enabled: true
+  auth:
+    username: superset
+    password: supersecret
+    database: superset
+
+# Celery i Vite (ważne!)
+celery:
+  enabled: true
+
+vite:
+  enabled: true
+
+# PVC jeśli potrzebujesz — zależnie od klas storage w OpenShift
+persistence:
+  enabled: true
+  accessMode: ReadWriteOnce
+  size: 5Gi
+  storageClass: ""
+
+service:
+  type: ClusterIP
+  port: 8088
+
+ingress:
+  enabled: false  # włącz, jeśli potrzebujesz expose przez Ingress
