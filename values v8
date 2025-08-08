@@ -1,0 +1,61 @@
+# values.yaml
+image:
+  repository: custom-superset
+  tag: "5.0"
+  pullPolicy: IfNotPresent
+
+extraEnv:
+  - name: SUPERSET_CONFIG_PATH
+    value: /app/pythonpath/superset_config.py
+
+extraVolumeMounts:
+  - name: superset-config
+    mountPath: /app/pythonpath/superset_config.py
+    subPath: superset_config.py
+
+extraVolumes:
+  - name: superset-config
+    configMap:
+      name: superset-config
+
+init:
+  enabled: true
+
+service:
+  type: ClusterIP
+  port: 8088
+
+ingress:
+  enabled: false
+
+# DATABASE CONNECTION (PostgreSQL via subchart)
+postgresql:
+  enabled: true
+  auth:
+    username: superset
+    password: superset123
+    database: superset
+  primary:
+    persistence:
+      enabled: true
+      existingClaim: postgres-pvc
+
+# REDIS via subchart
+redis:
+  enabled: true
+  architecture: standalone
+  auth:
+    enabled: false
+
+# CELERY
+celery:
+  enabled: true
+
+# Vite (od Superset 4.0+)
+supersetNode:
+  enabled: true
+
+securityContext:
+  runAsUser: 1000
+  runAsGroup: 1000
+  fsGroup: 1000
