@@ -1,0 +1,41 @@
+FROM apache/superset:5.0.0
+
+USER root
+
+# Instalacja narzędzi systemowych
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    python3-dev \
+    unixodbc \
+    unixodbc-dev \
+    odbcinst \
+    libpq-dev \
+    libssl-dev \
+    default-libmysqlclient-dev \
+    gcc \
+    g++ \
+    curl \
+    wget \
+    tar \
+    gzip \
+    net-tools \
+    iputils-ping && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Instalacja bibliotek Pythona w konkretnych wersjach
+RUN pip install --no-cache-dir \
+    psycopg2-binary==2.9.9 \
+    mysqlclient==2.2.4 \
+    pyodbc==5.1.0 \
+    nzpy==1.4 \
+    pymssql==2.2.8 \
+    pymysql==1.1.0
+
+# Ścieżka dla superset_config.py
+ENV PYTHONPATH="/app/pythonpath"
+
+# Kopiowanie pliku konfiguracyjnego (jeśli używany)
+COPY superset_config.py /app/pythonpath/superset_config.py
+
+# OpenShift non-root user
+USER 1001
