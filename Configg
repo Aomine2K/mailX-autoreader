@@ -1,0 +1,19 @@
+import os
+
+SQLALCHEMY_DATABASE_URI = os.getenv(
+    "SUPERSET_SQLALCHEMY_URI",
+    "postgresql+psycopg2://superset_user:super_secret@superset-postgres:5432/superset"
+)
+
+REDIS_HOST = os.getenv("REDIS_HOST", "superset-redis")
+REDIS_PORT = os.getenv("REDIS_PORT", "6379")
+REDIS_CELERY_DB = os.getenv("REDIS_CELERY_DB", "0")
+REDIS_RESULTS_DB = os.getenv("REDIS_RESULTS_DB", "1")
+
+FEATURE_FLAGS = {
+    "DASHBOARD_NATIVE_FILTERS": True,
+    "ALERT_REPORTS": True,
+    "ENABLE_TEMPLATE_PROCESSING": True,
+    "SCHEDULED_QUERIES": True,
+    "ENABLE_REACT_CRUD_VIEWS": True,
+}
