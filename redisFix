@@ -1,0 +1,45 @@
+# values.yaml
+global:
+  architecture: standalone
+auth:
+  enabled: false
+
+master:
+  persistence:
+    enabled: true
+    size: 10Gi
+    storageClass:
+    accessModes:
+      - ReadWriteOnce
+  resources:
+    requests:
+      memory: 256Mi
+      cpu: 100m
+    limits:
+      memory: 512Mi
+      cpu: 250m
+  securityContext:
+    enabled: false
+    runAsUser: null
+    fsGroup: null
+  containerSecurityContext:
+    enabled: false
+    runAsUser: null
+
+replica:
+  replicaCount: 0
+  securityContext:
+    enabled: false
+    runAsUser: null
+    fsGroup: null
+  containerSecurityContext:
+    enabled: false
+    runAsUser: null
+
+serviceAccount:
+  create: true
+  name: redis-sa
+
+service:
+  type: ClusterIP
+  port: 6379
