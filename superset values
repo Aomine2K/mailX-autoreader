@@ -1,0 +1,117 @@
+# values-superset.yaml
+runAsUser: 1000
+
+secretEnv:
+  create: true
+
+bootstrapScript: |
+  #!/bin/bash
+  apt-get update -y &&\
+  apt-get install -y --no-install-recommends gnupg curl &&\
+  pip install psycopg2 sqlalchemy pyodbc &&\
+  if [ ! -f ~/bootstrap ]; then echo "Running Superset init"; fi
+
+configFromSecret: '{{ template "superset.fullname" . }}-config'
+envFromSecret: '{{ template "superset.fullname" . }}-env'
+
+extraEnv:
+  # jeśli używasz AD lub dodatkowych zmiennych
+  # e.g. LDAP_URL: "ldap://domain"
+extraSecretEnv: {}
+
+postgresql:
+  enabled: true
+  auth:
+    username: superset
+    password: superset
+    database: superset
+  primary:
+    persistence:
+      enabled: true
+      existingClaim: "postgres-pvc"
+      accessModes:
+        - ReadWriteOnce
+
+redis:
+  enabled: true
+  architecture: standalone
+  auth:
+    enabled: false
+  master:
+    persistence:
+      enabled: true
+      size: 10Gi
+      accessModes:
+        - ReadWriteOnce
+
+init:
+  enabled: true
+  adminUser:
+    username: admin
+    firstname: Superset
+    lastname: Admin
+    email: admin@example.com
+    password: admin
+
+supersetNode:
+  replicaCount: 1
+  connections:
+    redis_host: '{{ template "superset.fullname" . }}-redis-master'
+    redis_port: "6379"
+    db_host: '{{ template "superset.fullname" . }}-postgresql'
+    db_port: "5432"
+    db_user: superset
+    db_pass: superset
+    db_name: superset
+  configMountPath: "/app/pythonpath"
+  forceReload: false
+  resources:
+    requests:
+      memory: 1Gi
+      cpu: 500m
+    limits:
+      memory: 2Gi
+      cpu: 1
+
+supersetWorker:
+  replicaCount: 1
+  forceReload: false
+  resources:
+    requests:
+      memory: 512Mi
+      cpu: 250m
+    limits:
+      memory: 1Gi
+      cpu: 500m
+
+supersetCeleryBeat:
+  enabled: true
+  forceReload: false
+  resources:
+    requests:
+      memory: 256Mi
+      cpu: 100m
+    limits:
+      memory: 512Mi
+      cpu: 250m
+
+service:
+  type: ClusterIP
+  port: 8088
+
+ingress:
+  enabled: true
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+  hosts:
+    - host: superset.example.com
+      paths: ["/"]
+  tls:
+    - secretName: superset-tls
+      hosts:
+        - superset.example.com
+
+configOverrides:
+  superset_config.py: |
+    # Twoja migracja starego superset_config.py tutaj
+
