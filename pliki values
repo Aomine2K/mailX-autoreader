@@ -1,0 +1,98 @@
+plik postgres:
+global:
+  postgresql:
+    auth:
+      postgresPassword: superset
+      username: superset
+      password: superset
+      database: superset
+
+primary:
+  persistence:
+    enabled: true
+    existingClaim: "postgres-pvc"
+    mountPath: /bitnami/postgresql
+    size: 10Gi
+    accessModes:
+      - ReadWriteOnce
+  resources:
+    requests:
+      memory: 512Mi
+      cpu: 250m
+    limits:
+      memory: 1Gi
+      cpu: 500m
+
+plik redis:
+# values.yaml
+global:
+  architecture: standalone
+auth:
+  enabled: false
+
+master:
+  persistence:
+    enabled: true
+    size: 10Gi
+    storageClass:
+    accessModes:
+      - ReadWriteOnce
+  resources:
+    requests:
+      memory: 256Mi
+      cpu: 100m
+    limits:
+      memory: 512Mi
+      cpu: 250m
+  securityContext:
+    enabled: false
+    runAsUser: null
+    fsGroup: null
+  containerSecurityContext:
+    enabled: false
+    runAsUser: null
+
+replica:
+  replicaCount: 0
+  securityContext:
+    enabled: false
+    runAsUser: null
+    fsGroup: null
+  containerSecurityContext:
+    enabled: false
+    runAsUser: null
+
+serviceAccount:
+  create: true
+  name: redis-sa
+
+service:
+  type: ClusterIP
+  port: 6379
+
+
+wytyczne:
+Instalacja Superset 5.0 w wersji HELM na klastrze OA OpenShift
+Konfiguracja klastra:
+	8 VPC
+	128 GB RAM
+	Dysk 10 GB jako persistent storage dla wewnętrznej bazy PostgreSQL bez współdzielenia
+	Dysk NFS 2 TB persistent storage współdzielony dla podów
+Konfiguracja POD’ów w Superset (1 pod - 1 kontener):
+	superset-celerybeat      1 Pod
+	superset                                1 Pod    w przyszłości możliwe zwiększenie ilości Pod’ów
+	superset-init-db               1 Pod
+	superset-postgresql       1 Pod
+	superset-redis-master  1 Pod
+	superset-worker                1 Pod    w przyszłości możliwe zwiększenie ilości Pod’ów
+Niezbędne sterowniki jdbc:
+	PostgreSQL
+	SQL Server
+	Netezza
+Dodatkowe ustalenia:
+	Integracja z AD
+	Protokół HTTPS
+	NFS
+	Dane superset-config.py ze starej wersji mają zostać przepisane do nowej wersji
+	Przepływy zrobimy we własnym zakresie
+	Serwer NFS ogarniemy we własnym zakresie
