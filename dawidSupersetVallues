@@ -1,0 +1,65 @@
+image:
+  repository: image-registry.openshift-image-registry.svc:5000/superset/superset-test
+  tag: latest
+  pullPolicy: IfNotPresent
+
+configOverrides:
+  superset_config.py: |
+    import os
+    from flask_appbuilder.security.manager import AUTH_LDAP
+    AUTH_TYPE = AUTH_LDAP
+    AUTH_LDAP_SERVER = "ldap://zus.ad:389/dc=zus, dc=ad?sAMAccountName?sub?(objectClass=*)"
+    AUTH_LDAP_SEARCH = "cn=fasada,ou=konta_techniczne,ou=Centrala,dc=zus,dc=ad"
+    AUTH_LDAP_UID_FIELD = "sAMAccountName"
+    #Tutaj pozostałe ustawienia ze starej wersji
+
+externalDatabase:
+  enabled: true
+  type: posttgresql
+  host: my-postgresql.superset.svc.cluster.local
+  port: 5432
+  database: superset
+  user: superset
+  password: superset
+
+externalRedis:
+  host: my-redis-master.superset.svc.cluster.local
+  port: 6379
+  password: ""
+
+persistence:
+  enabled: true
+  exestingClaim: #trzeba stworzyć
+  size: 2Ti
+  accessModes:
+    - ReadWriteMany
+
+ingress:
+  enabled: true
+  hosts:
+    - name: superset.zus.ad
+      path: /
+  tls:
+    - hosts:
+      - superset.zus.ad
+      secretName: #trzeba wygenerwać secret z certyfikatem
+
+workers:
+  celery:
+    replicas: 1
+  worker:
+    replicas: 1
+  beat:
+    replicas: 1
+
+service:
+  type: ClusterIP
+  port: 8088
+
+resources:
+  limits:
+    memory: 2Gi
+    cpu:  1
+  requests:
+    memory: 1Gi
+    cpu: 500m
