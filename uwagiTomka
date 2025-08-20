@@ -1,0 +1,80 @@
+image:
+repository: image-registry.openshift-image-registry.svc:5000/superset/superset-test *//ścieżka
+tag: latest
+pullPolicy: IfNotPresent
+
+
+# Połączenie zewnętrzne bazy
+externalDatabase:
+host: superset-postgresql *// CZy nazwa hosta poprawna ?
+port: 5432
+user: superset
+password: superset
+database: superset
+
+
+externalRedis:
+host: superset-redis-master *// CZy nazwa hosta poprawna ?
+port: 6379
+
+
+# LDAP i stare ustawienia
+configOverrides:
+superset_config.py: |
+import os
+from flask_appbuilder.security.manager import AUTH_LDAP
+AUTH_TYPE = AUTH_LDAP
+AUTH_LDAP_SERVER = "ldap://zus.ad:389/dc=zus,dc=ad?sAMAccountName?sub?(objectClass=*)"
+AUTH_LDAP_SEARCH = "cn=fasada,ou=konta_techniczne,ou=Centrala,dc=zus,dc=ad"
+AUTH_LDAP_UID_FIELD = "sAMAccountName"
+AUTH_ROLE_ADMIN = "Admin"
+AUTH_USER_REGISTRATION = True
+AUTH_USER_REGISTRATION_ROLE = "Gamma"
+
+
+# HTTPS ingress //Czy certyfikaty są potrzebne
+ingress:
+enabled: true
+hostname: superset.zus.ad
+ingressClassName: nginx
+tls: true
+annotations:
+nginx.ingress.kubernetes.io/ssl-redirect: "true"
+extraTls:
+- hosts:
+- superset.zus.ad
+secretName: superset-tls-secret
+
+
+# Worker / Celery //Co to i czy potrzebne, czy można instalować superseta bez tego
+workers:
+celery:
+replicas: 1
+worker:
+replicas: 1
+beat:
+replicas: 1
+
+
+replicaCount: 1 //Sprawdzić różnicę
+
+
+resources:
+limits:
+memory: 4Gi
+cpu: 2
+requests:
+memory: 2Gi
+cpu: 1
+
+
+# Wyłączamy wbudowane narzędzia
+postgresql:
+enabled: false
+
+
+redis:
+enabled: false
+
+
+*//Czego jeszcze brakuje aby uruchomić klaster
