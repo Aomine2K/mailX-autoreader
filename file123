@@ -1,0 +1,18 @@
+Nazwa wymagania	Pobieranie informacji o zaufanych certyfikatach TLS z rejestru urządzeń mobilnych
+Źródło wymagania	385/DRK/2025/01-WI-004
+
+Opis wymagania	Aplikacja mobilna po uruchomieniu powinna odczytać z usługi PMZ informacje o kluczu TLS serwera. Informacja ta powinna być podpisana kluczem prywatnym PMZ i zweryfikowana kluczem publicznym zaszytym w kodzie aplikacji. 
+Dotyczy elementu funkcjonalnego	50.2.1 Moduł aplikacji mobilnej klienta indywidualnego
+50.2.2 Moduł usług mobilnych klienta indywidualnego
+50.3.1 Moduł aplikacji mobilnej lekarza
+50.3.2 Moduł usług mobilnych lekarza 
+
+Potencjalna zmiana może wywoływać dodatkowe problemy. 
+Teraz to jest zaszyte na sztywno w kodzie aplikacji (2 klucze publiczne certyfikatów serwera: „podstawowy” i „zapasowy”). Idea jak rozumiemy jest taka, aby zaszyć klucz publiczny, którym odszyfrujemy klucz TLS serwera i potem będziemy ufać tylko jemu. Takie działanie musielibyśmy zrobić otwartym nieszyfrowanym kanałem, aby miało sens, więc mamy nowy wektor ataku. Natomiast jeżeli zrobimy to w sposób szyfrowany, to wracamy do punktu wyjścia, bo musimy mieć klucz serwera. 
+Zmiany będzie obejmowała nową usługę do zrobienia.  Konieczne dodatkowe uzasadnienie  przez Zamawiającego i przekazanie ‘ścieżki’, jaką założył dla realizacji tego obszaru.
+W przeciwnym wypadku możemy nie rozwiązać problemu, a wręcz stworzyć przy okazji nowy.
+Zdaniem Wykonawcy konieczna jest zmiana w postaci powołania odrębnych funkcjonalności dla każdej z aplikacji mobilnych.
+
+
+
+
