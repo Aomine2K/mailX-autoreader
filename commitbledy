@@ -1,0 +1,40 @@
+Error: INSTALLATION FAILED: failed to parse values-superset.yaml: error converting YAML to JSON: yaml: line 218: did not find expected key
+helm.go:84: [debug] error converting YAML to JSON: yaml: line 218: did not find expected key
+failed to parse values-superset.yaml
+helm.sh/helm/v3/pkg/cli/values.(*Options).MergeValues
+        helm.sh/helm/v3/pkg/cli/values/options.go:57
+main.runInstall
+        helm.sh/helm/v3/cmd/helm/install.go:234
+main.newInstallCmd.func2
+        helm.sh/helm/v3/cmd/helm/install.go:152
+github.com/spf13/cobra.(*Command).execute
+        github.com/spf13/cobra@v1.8.0/command.go:983
+github.com/spf13/cobra.(*Command).ExecuteC
+        github.com/spf13/cobra@v1.8.0/command.go:1115
+github.com/spf13/cobra.(*Command).Execute
+        github.com/spf13/cobra@v1.8.0/command.go:1039
+main.main
+        helm.sh/helm/v3/cmd/helm/helm.go:83
+runtime.main
+        runtime/proc.go:267
+runtime.goexit
+        runtime/asm_amd64.s:1650
+INSTALLATION FAILED
+main.newInstallCmd.func2
+        helm.sh/helm/v3/cmd/helm/install.go:154
+github.com/spf13/cobra.(*Command).execute
+        github.com/spf13/cobra@v1.8.0/command.go:983
+github.com/spf13/cobra.(*Command).ExecuteC
+        github.com/spf13/cobra@v1.8.0/command.go:1115
+github.com/spf13/cobra.(*Command).Execute
+        github.com/spf13/cobra@v1.8.0/command.go:1039
+main.main
+        helm.sh/helm/v3/cmd/helm/helm.go:83
+runtime.main
+        runtime/proc.go:267
+runtime.goexit
+        runtime/asm_amd64.s:1650
+
+
+
+
