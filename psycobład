@@ -1,0 +1,77 @@
+Requirement already satisfied: psycopg2-binary in /usr/local/lib/python3.10/site-packages (2.9.9)
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+
+[notice] A new release of pip is available: 23.0.1 -> 25.2
+[notice] To update, run: pip install --upgrade pip
+Loaded your LOCAL configuration at [/app/pythonpath/superset_config.py]
+2025-08-22 11:01:10,498:ERROR:superset.app:Failed to create app
+Traceback (most recent call last):
+  File "/app/superset/app.py", line 40, in create_app
+    app_initializer.init_app()
+  File "/app/superset/initialization/__init__.py", line 466, in init_app
+    self.setup_db()
+  File "/app/superset/initialization/__init__.py", line 662, in setup_db
+    pessimistic_connection_handling(db.engine)
+  File "/app/.venv/lib/python3.10/site-packages/flask_sqlalchemy/__init__.py", line 998, in engine
+    return self.get_engine()
+  File "/app/.venv/lib/python3.10/site-packages/flask_sqlalchemy/__init__.py", line 1017, in get_engine
+    return connector.get_engine()
+  File "/app/.venv/lib/python3.10/site-packages/flask_sqlalchemy/__init__.py", line 594, in get_engine
+    self._engine = rv = self._sa.create_engine(sa_url, options)
+  File "/app/.venv/lib/python3.10/site-packages/flask_sqlalchemy/__init__.py", line 1027, in create_engine
+    return sqlalchemy.create_engine(sa_url, **engine_opts)
+  File "<string>", line 2, in create_engine
+  File "/app/.venv/lib/python3.10/site-packages/sqlalchemy/util/deprecations.py", line 375, in warned
+    return fn(*args, **kwargs)
+  File "/app/.venv/lib/python3.10/site-packages/sqlalchemy/engine/create.py", line 544, in create_engine
+    dbapi = dialect_cls.dbapi(**dbapi_args)
+  File "/app/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/psycopg2.py", line 811, in dbapi
+    import psycopg2
+ModuleNotFoundError: No module named 'psycopg2'
+Usage: celery [OPTIONS] COMMAND [ARGS]...
+Try 'celery --help' for help.
+
+Error: Invalid value for '-A' / '--app': 
+Unable to load celery application.
+While trying to load the module superset.tasks.celery_app:app the following error occurred:
+Traceback (most recent call last):
+  File "/app/.venv/lib/python3.10/site-packages/celery/bin/celery.py", line 58, in convert
+    return find_app(value)
+  File "/app/.venv/lib/python3.10/site-packages/celery/app/utils.py", line 383, in find_app
+    sym = symbol_by_name(app, imp=imp)
+  File "/app/.venv/lib/python3.10/site-packages/kombu/utils/imports.py", line 59, in symbol_by_name
+    module = imp(module_name, package=package, **kwargs)
+  File "/app/.venv/lib/python3.10/site-packages/celery/utils/imports.py", line 109, in import_from_cwd
+    return imp(module, package=package)
+  File "/usr/local/lib/python3.10/importlib/__init__.py", line 126, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1050, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1027, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1006, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 688, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 883, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/app/superset/tasks/celery_app.py", line 32, in <module>
+    flask_app = create_app()
+  File "/app/superset/app.py", line 40, in create_app
+    app_initializer.init_app()
+  File "/app/superset/initialization/__init__.py", line 466, in init_app
+    self.setup_db()
+  File "/app/superset/initialization/__init__.py", line 662, in setup_db
+    pessimistic_connection_handling(db.engine)
+  File "/app/.venv/lib/python3.10/site-packages/flask_sqlalchemy/__init__.py", line 998, in engine
+    return self.get_engine()
+  File "/app/.venv/lib/python3.10/site-packages/flask_sqlalchemy/__init__.py", line 1017, in get_engine
+    return connector.get_engine()
+  File "/app/.venv/lib/python3.10/site-packages/flask_sqlalchemy/__init__.py", line 594, in get_engine
+    self._engine = rv = self._sa.create_engine(sa_url, options)
+  File "/app/.venv/lib/python3.10/site-packages/flask_sqlalchemy/__init__.py", line 1027, in create_engine
+    return sqlalchemy.create_engine(sa_url, **engine_opts)
+  File "<string>", line 2, in create_engine
+  File "/app/.venv/lib/python3.10/site-packages/sqlalchemy/util/deprecations.py", line 375, in warned
+    return fn(*args, **kwargs)
+  File "/app/.venv/lib/python3.10/site-packages/sqlalchemy/engine/create.py", line 544, in create_engine
+    dbapi = dialect_cls.dbapi(**dbapi_args)
+  File "/app/.venv/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/psycopg2.py", line 811, in dbapi
+    import psycopg2
+ModuleNotFoundError: No module named 'psycopg2'
