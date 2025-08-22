@@ -1,0 +1,52 @@
+FROM apache/superset:5.0.0
+
+ENV  http_proxy=http://10.241.2.119:8000 \
+     HTTPS_PROXY=http://10.241.2.119:8000 \
+     https_proxy=http://10.241.2.119:8000 \
+     no_proxy=.zus.ad,localhost,127.0.0.1,172.18.60.149,172.18.60.71,172.18.60.72,172.18.60.64/26 \
+     HTTP_PROXY=http://10.241.2.119:8000
+
+USER root
+
+# Instalacja narzędzi
+RUN apt-get update && apt-get install -y \
+    pkg-config \
+    build-essential \
+    python3-pip \
+    python3-dev \
+    unixodbc \
+    unixodbc-dev \
+    odbcinst \
+    libpq-dev \
+    libssl-dev \
+    default-libmysqlclient-dev \
+    gcc \
+    g++ \
+    nano \
+    npm \
+    gettext \
+    curl \
+    wget \
+    tar \
+    gzip \
+    net-tools \
+    iputils-ping && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Instalacja bibliotek Python
+RUN pip install --no-cache-dir \
+    #psycopg2-binary \
+    mysqlclient \
+    pyodbc \
+    nzpy \
+    pymssql \
+    pymysql
+
+# Ścieżka dla superset_config.py
+#ENV PYTHONPATH="/app/pythonpath"
+
+# Kopia pliku konfiguraacyjnego
+#COPY superset_config.py /app/pythonpath/superset_config.py
+
+# Zmiana usera dla OpenShift
+USER superset
