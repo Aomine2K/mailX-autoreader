@@ -1,0 +1,1249 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tuxedo HTML</title>
+    <link rel="stylesheet" href="bootstrap.min.css">
+    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+    <style>
+        /* body {
+            background-color: #1E201E;
+            color: #c9c5bf;
+        } */
+         @media (max-width: 1000px){
+            .container{
+                padding-right: 0 !important;
+                padding-left: 0 !important;
+                margin-left: 0 !important;
+                margin-right: 0 !important;
+                width: 100% !important;
+                max-width: 100% !important;
+            }
+         }
+         ::-webkit-scrollbar{
+            width: 8px;
+            height: 8px;
+         }
+         ::-webkit-scrollbar-thumb{
+            background-color: rgb(72, 75, 78);
+            border-radius: 16px;
+        }
+
+        ::-webkit-scrollbar-track{
+            background-color: transparent;
+        }
+
+        .modal-dialog {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 10px;
+            max-width: none;
+
+        }
+
+        h4 {
+            font-weight: bold;
+        }
+
+        .modal-body,
+        .modal-content {
+            height: 100%;
+            padding: 0;
+        }
+
+        .section-navLink {
+            padding-top: 60px;
+            margin-top: -60px;
+        }
+
+        @media (max-width: 1014px) and (min-width: 990px) {
+            .section-navLink {
+                padding-top: 80px;
+                margin-top: -80px;
+            }
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1051;
+        }
+
+        .btn {
+            margin: 0 10px 0 10px;
+        }
+
+        .content {
+            padding-top: 60px;
+            margin: 20px;
+            font-family: Arial, sans-serif;
+        }
+
+        .text-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .list-container {
+            margin-top: 10px;
+        }
+
+        .list-item {
+            margin: 5px 0;
+        }
+
+        .tg {
+            border-collapse: collapse;
+            border-spacing: 0;
+        }
+
+        .tg td {
+            border-color: black;
+            border-style: solid;
+            border-width: 1px;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            overflow: hidden;
+            padding: 10px 5px;
+            word-break: normal;
+        }
+
+        .tg th {
+            border-color: black;
+            border-style: solid;
+            border-width: 1px;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            font-weight: normal;
+            overflow: hidden;
+            padding: 10px 5px;
+            word-break: normal;
+        }
+
+        .tg .tg-amwm {
+            font-weight: bold;
+            text-align: center;
+            vertical-align: top
+        }
+
+        .tg .tg-0lax {
+            text-align: left;
+            vertical-align: center
+        }
+    </style>
+</head>
+
+<body class="container">
+    <div class="modal" id="pdfModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="pdfModalLabel">Podgląd PDF</h5>
+                    <button type="button" class="btn-close" onclick="closePDF()" aria-label="Close"
+                        style="margin-right: 20px;"></button>
+                </div>
+                <div class="modal-body">
+                    <iframe id="pdfBody"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="toast-container">
+        <div id="myToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header bg-secondary">
+                <strong class="mr-auto">Informacja</strong>
+            </div>
+            <div class="toast-body bg-secondary">information
+            </div>
+        </div>
+    </div>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark bg-gradient fixed-top ">
+        <a class="navbar-brand" href="#" id="openPdf">Tuxedo PDF</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation" onclick="toggleMenu()">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" style="display: none;" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="#" onclick="closeMenu()">Lista Tuxedo </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#domain" onclick="closeMenu()">Domeny</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#oddtjo" onclick="closeMenu()">Środowiska</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#check" onclick="closeMenu()">Sprawdzanie</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#dm" onclick="closeMenu()">Dm</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#tm" onclick="closeMenu()">Tm</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#startstop" onclick="closeMenu()">RBAC</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#proc" onclick="closeMenu()">Procedury A*</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#procU" onclick="closeMenu()">Procedury U*</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#proc-other" onclick="closeMenu()">Pozostałe procedury</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#bazyIFX" onclick="closeMenu()">Bazy IFX</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#instalation" onclick="closeMenu()">Okno</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#terminal" onclick="closeMenu()">Terminal</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" onclick="changeViewMode(); closeMenu()" style="cursor: pointer;">🌙/☀️</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="content">
+        <div class="section-navLink" id="#"></div>
+        <p>Lista wszystkich serwerów, na których znajduję się Tuxedo (SSH, port 22):
+            <button class="btn btn-success" onclick="toggleList()">Pokaż listę</button>
+        <div class="list-container" style="display: none;" id="listContainer">
+        </div>
+        </p>
+
+        <p><b>OSAB - oddziałowy serwer aplikacyjno-bazodanowy</b></p>
+        <p><b>cwipw (główny user do zarządzania)</b></p>
+        <p>/appksi/ksi/cwipw - domyślny folder </p>
+        <p>Konta techniczne użytkowników Unix na których uruchamiane są poszczególne domeny Tuxedo w warstwie
+            oddziałowej i nazwy tych domen:</p>
+        <p>Logowanie do odpowiednich domen odbywa się za pomocą skryptu <b>tuxksh.sh</b>, poniżej znajduję się tabelka z
+            rozpisanymi domenami wraz z ich aplikacjami oraz przyciskiem, umożliwiającym skopiowanie polecenia i
+            zalogowanie się na domenę. </p>
+        <div class="section-navLink" id="domain"></div>
+        <table class="tg">
+            <thead>
+                <tr>
+                    <th class="tg-amwm">Domena</th>
+                    <th class="tg-amwm">Aplikacje</th>
+                    <th class="tg-amwm">Skrypt do zalogowania</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="tg-0lax">tuxaut: ODDAUT</td>
+                    <td class="tg-0lax">Domena autoryzacyjna</td>
+                    <td class="tg-0lax">
+                        <span id="tuxaut">tuxksh.sh tuxaut</span>
+                        <button class="btn btn-success" onclick="copyText('tuxaut')">KOPIUJ</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tg-0lax">tuxazb: ODDAZB TJOAZB</td>
+                    <td class="tg-0lax">BW, DF, FE, FI, FM, FO, FY, NT, OU</td>
+                    <td class="tg-0lax">
+                        <span id="tuxazb">tuxksh.sh tuxazb</span>
+                        <button class="btn btn-success" onclick="copyText('tuxazb')">KOPIUJ</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tg-0lax">tuxcot: ODDCOT TJOCOT</td>
+                    <td class="tg-0lax">A6</td>
+                    <td class="tg-0lax">
+                        <span id="tuxcot">tuxksh.sh tuxcot</span>
+                        <button class="btn btn-success" onclick="copyText('tuxcot')">KOPIUJ</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tg-0lax">tuxdkw: ODDDKW(tylko na centrala.zus) TJODKW</td>
+                    <td class="tg-0lax">F6</td>
+                    <td class="tg-0lax">
+                        <span id="tuxdkw">tuxksh.sh tuxdkw</span>
+                        <button class="btn btn-success" onclick="copyText('tuxdkw')">KOPIUJ</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tg-0lax">tuxdok: ODDDOK TJODOK</td>
+                    <td class="tg-0lax">A6, B6</td>
+                    <td class="tg-0lax">
+                        <span id="tuxdok">tuxksh.sh tuxdok</span>
+                        <button class="btn btn-success" onclick="copyText('tuxdok')">KOPIUJ</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tg-0lax">tuxeme: ODDEME TJOEME</td>
+                    <td class="tg-0lax">AJ, BJ, E2, E2R, WER, ZDU, ZSG</td>
+                    <td class="tg-0lax">
+                        <span id="tuxeme">tuxksh.sh tuxeme</span>
+                        <button class="btn btn-success" onclick="copyText('tuxeme')">KOPIUJ</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tg-0lax">tuxepwd: TJOEPWD</td>
+                    <td class="tg-0lax">EPWD</td>
+                    <td class="tg-0lax">
+                        <span id="tuxepwd">tuxksh.sh tuxepwd</span>
+                        <button class="btn btn-success" onclick="copyText('tuxepwd')">KOPIUJ</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tg-0lax">tuxkor: ODDKOR TJOKOR</td>
+                    <td class="tg-0lax">E6</td>
+                    <td class="tg-0lax">
+                        <span id="tuxkor">tuxksh.sh tuxkor</span>
+                        <button class="btn btn-success" onclick="copyText('tuxkor')">KOPIUJ</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tg-0lax">tuxks: ODDKS</td>
+                    <td class="tg-0lax">BE, FE, FI, FM, FO, NA, NT, OK, ON, OU, R6, SL</td>
+                    <td class="tg-0lax">
+                        <span id="tuxks">tuxksh.sh tuxks</span>
+                        <button class="btn btn-success" onclick="copyText('tuxks')">KOPIUJ</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tg-0lax">tuxolp: ODDOLP TJOOLP</td>
+                    <td class="tg-0lax">WO, WL</td>
+                    <td class="tg-0lax">
+                        <span id="tuxolp">tuxksh.sh tuxolp</span>
+                        <button class="btn btn-success" onclick="copyText('tuxolp')">KOPIUJ</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tg-0lax">tuxplat: ODDPLAT TJOPLAT</td>
+                    <td class="tg-0lax">BKP, DI, EPWD, FW, NA, NX, R6, ZD, ZK, ZN</td>
+                    <td class="tg-0lax">
+                        <span id="tuxplat">tuxksh.sh tuxplat</span>
+                        <button class="btn btn-success" onclick="copyText('tuxplat')">KOPIUJ</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tg-0lax">tuxpzl: ODDPZL TJOPZL</td>
+                    <td class="tg-0lax">FL ,LI</td>
+                    <td class="tg-0lax">
+                        <span id="tuxpzl">tuxksh.sh tuxpzl</span>
+                        <button class="btn btn-success" onclick="copyText('tuxpzl')">KOPIUJ</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tg-0lax">tuxrkw: ODDRKW TJORKW</td>
+                    <td class="tg-0lax">C6</td>
+                    <td class="tg-0lax">
+                        <span id="tuxrkw">tuxksh.sh tuxrkw</span>
+                        <button class="btn btn-success" onclick="copyText('tuxrkw')">KOPIUJ</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tg-0lax">tuxsoi: ODDSOI TJOSOI</td>
+                    <td class="tg-0lax">PI</td>
+                    <td class="tg-0lax">
+                        <span id="tuxsoi">tuxksh.sh tuxsoi</span>
+                        <button class="btn btn-success" onclick="copyText('tuxsoi')">KOPIUJ</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tg-0lax">tuxubez: ODDUBEZ TJOUBEZ</td>
+                    <td class="tg-0lax">AdmWysPis(EP), DP, EB, EP, K3, RejDun(EP),DH</td>
+                    <td class="tg-0lax">
+                        <span id="tuxubez">tuxksh.sh tuxubez</span>
+                        <button class="btn btn-success" onclick="copyText('tuxubez')">KOPIUJ</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tg-0lax">tuxwew: ODDWEW TJOWEW</td>
+                    <td class="tg-0lax">BE, D6, KS, MI, NA, OK, SL, ZO</td>
+                    <td class="tg-0lax">
+                        <span id="tuxwew">tuxksh.sh tuxwew</span>
+                        <button class="btn btn-success" onclick="copyText('tuxwew')">KOPIUJ</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tg-0lax">tuxzas: ODDZAS TJOZAS</td>
+                    <td class="tg-0lax">AN, BC, BD</td>
+                    <td class="tg-0lax">
+                        <span id="tuxzas">tuxksh.sh tuxzas</span>
+                        <button class="btn btn-success" onclick="copyText('tuxzas')">KOPIUJ</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div style="margin-top: 20px;"></div>
+        <div class="section-navLink" id="oddtjo"></div>
+        <h4>Ustawienie środowiska pracy domeny Tuxedo</h4>
+        <p>
+            <b>Domena ODD (domena oddziałowa, która zwykle łączy się z centralnymi domenami):
+            </b><br>
+            <span id="odd">. ./odd/cfg/odd.sh</span>
+            <button class="btn btn-success" onclick="copyText('odd')">KOPIUJ</button><br>
+            <b>Domena TJO (do której podłączają się klienci aplikacji ze stacji roboczych użytkowników):
+            </b><br>
+            <span id="tjo">. ./tjo/cfg/tjo.sh</span>
+            <button class="btn btn-success" onclick="copyText('tjo')">KOPIUJ</button>
+        </p>
+        <p>
+            <b>Wyświetlenie skompilowanej konfiguracji</b>, polecenie działa w przypadku ustawionego środowiska, patrz
+            wyżej.<br>
+            <span id="tmunloadcf">tmunloadcf</span>
+            <button class="btn btn-success" onclick="copyText('tmunloadcf')">KOPIUJ</button><br>
+            <span id="dmunloadcf">dmunloadcf</span>
+            <button class="btn btn-success" onclick="copyText('dmunloadcf')">KOPIUJ</button>
+        </p>
+
+        <div class="section-navLink" id="check"></div>
+
+        <h4>Polecenia do sprawdzania Tuxedo </h4>
+        <p>
+            <span id="bbl"> ps -ef | grep BBL</span>
+            <button class="btn btn-success" onclick="copyText('bbl')">KOPIUJ</button>
+            <br><b>Bulletin Board Liaison</b> – podstawowy serwer Tuxedo uruchamiany jako pierwszy przy starcie domeny.
+        </p>
+        <p>
+            <span id="help"> echo help | tmadmin</span> - wydruk aktualnie dostępnej listy poleceń
+            <button class="btn btn-success" onclick="copyText('help')">KOPIUJ</button>
+        </p>
+        <p>
+            <span id="v"> echo v | tmadmin</span> - pełniejszy (verbose, czasem trochę inny) zakres wyświetlanych
+            wyników poleceń
+            <button class="btn btn-success" onclick="copyText('v')">KOPIUJ</button>
+        </p>
+        <p>
+            <span id="bbc"> echo bbc | tmadmin</span> - wyczyszczenie BB, BBL sprawdzi czy zatrzymane są serwery, które
+            powinny być zatrzymane oraz czy uruchomione są
+            serwery, które powinny pracować, można wykonywać profilaktycznie w wątpliwych sytuacjach, np. po przerwaniu
+            zatrzymywania domeny.
+            <button class="btn btn-success" onclick="copyText('bbc')">KOPIUJ</button>
+        </p>
+        <p>
+            <span id="bbs"> echo bbs | tmadmin</span> - statystyki BB
+            <button class="btn btn-success" onclick="copyText('bbs')">KOPIUJ</button>
+        </p>
+        <p>
+            <span id="bbi"> echo bbi | tmadmin</span> - przegląd BB
+            <button class="btn btn-success" onclick="copyText('bbi')">KOPIUJ</button>
+        </p>
+        <p>
+            <span id="psr"> echo "psr" |tmadmin</span>
+            <button class="btn btn-success" onclick="copyText('psr')">KOPIUJ</button>
+            <br>Wyświetlenie uruchomionych serwerów Tuxedo w domenie Tuxedo
+        </p>
+        <p>
+            <span id="psc"> echo "psc" |tmadmin</span>
+            <button class="btn btn-success" onclick="copyText('psc')">KOPIUJ</button>
+            <br>Wyświetlenie rozgłaszanych przez serwery Tuxedo serwisów(usług) Tuxedo
+        </p>
+        <p>
+            <span id="pq"> echo "pq" |tmadmin</span>
+            <button class="btn btn-success" onclick="copyText('pq')">KOPIUJ</button>
+            <br>Wyświetlenie stanu kolejek Tuxedo w domenie Tuxedo
+        </p>
+
+        <p>
+            <span id="pclt"> echo "pclt" |tmadmin</span>
+            <button class="btn btn-success" onclick="copyText('pclt')">KOPIUJ</button>
+            <br>Wyświetlenie zalogowanych userów (polecenie przydatne w domenach TJO...)
+        </p>
+
+        <p>
+            <span id="pclt-example"> echo "pclt" |tmadmin 2>/dev/null| egrep -c 'E2|WER|E2R'</span>
+            <button class="btn btn-success" onclick="copyText('pclt-example')">KOPIUJ</button>
+            <br>Policzenie tylko użytkowników zalogowanych w aplikacjach E2, WER, E2R
+        </p>
+
+        <p>
+            <span id="pclt-example-2">echo "pclt" |tmadmin |grep -v -i busy |grep -c 'OU'</span>
+            <button class="btn btn-success" onclick="copyText('pclt-example-2')">KOPIUJ</button>
+            <br>Zadaniem tego polecenia jest wypisać ile wystąpień było dla aplikacji OU, z wyłączeniem użytkowników, którzy są busy. 
+        </p>
+
+        <div class="section-navLink" id="dm"></div>
+        <h4>Polecenia dm do sprawdzania połączeń domenowych
+        </h4>
+        <p><b>(zrywanie lub nawiązywanie połączeń domenowych)</b></p>
+        <p>
+            <span id="help-dm"> echo help | dmadmin</span> - wydruk aktualnie dostępnej listy poleceń dla dmadmin
+            <button class="btn btn-success" onclick="copyText('help-dm')">KOPIUJ</button>
+        </p>
+        <b>pd -d [domena_lokalna]</b> - wyświetlenie połączenia domeny lokalnej (tej której środowisko mamy
+        aktualnie
+        ustawione)<br>
+        <b>co –d [domena_lokalna] [-R domena_zdalna]</b> - wymuszenie połączenie domeny lokalnej z domenami zdalnymi
+        (polecenie prawie nie używane, ponieważ połączenie z domeną zdalną wymuszane
+        jest automatycznie poprzez wywoływanie usług przez aplikacje)
+        <br>
+        <b>dco –d domena_lokalna [-R domena_zdalna]</b> - - rozłącza domenę lokalną z domenami zdalnymi.
+        <br>
+        Przykłady<br>
+        <b>echo "pd -d ODDAZB_ZIELONAG"|dmadmin<br>
+            echo "pd -d TJOAZB_SZCZECIN"|dmadmin</b>
+        <br>
+        <b>echo "co -d ODDCOT_KOSZALIN -R COOCOT"|dmadmin<br>
+            echo "co -d ODDPZL_BIALYSTOK -R COOPZL"|dmadmin</b>
+        </p>
+
+        <div class="section-navLink" id="tm"></div>
+        <h4>Polecenia do uruchamiania i zatrzymywania domen lub wybranych grup lub serwerów Tuxedo </h4>
+        <p><b>(!!! czynności administracyjne wykonywane poza godzinami pracy użytkowników lub wyłącznie w razie awarii
+                i potrzeby ich zastosowania !!!)</b></p>
+
+        <p>
+            <b>tmboot -y </b> - jest standardowym narzędziem do uruchamiania aplikacji, grup serwerów, serwerów - jest
+            niejawnie wywoływane
+            poprzez komendę boot z wewnątrz narzędzia tmadmin. Polecenia tmboot można używać jedynie z konta na którym
+            pracuje
+            aplikacja ¬czyli konta klienta, który jest właścicielem konfiguracji. Identyfikacja klienta polega na
+            sprawdzeniu UID i GID
+            użytkownika, które znajdują się w ubbconfigu. W aplikacji wielomaszynowej (model MP) polecenia tmboot można
+            używać na
+            maszynie master oraz na maszynie backup - z opcją -b.
+        </p>
+        <p>
+            <b>tmshutdown -y</b> - służy do zatrzymania całej aplikacji, pojedynczych serwerów, grup serwerów
+            (analogiczne do polecenia tmboot)<br>
+        </p>
+        <ul>
+            <li>-n – sprawdzanie poprawności, tylko udaje uruchamianie/zatrzymywanie</li>
+            <li>-y – nie pyta o potwierdzenie gdy nie ma innych parametrów polecenia</li>
+            <li>-A – uruchamia/zatrzymuje tylko BBL</li>
+            <li>-g grupa – uruchamia/zatrzymuje wszystkie serwery w grupie</li>
+            <li>-s nazwa – uruchamia/zatrzymuje wszystkie serwery o podanej nazwie</li>
+            <li>-S - uruchamia/zatrzymuje wszystkie serwery w sekcji SERVERS</li>
+            <li>-i ID – uruchamia/zatrzymuje tylko serwer o podanym ID</li>
+            <li>-w sek – podczas zatrzymywania czeka sek sekund, jeśli serwer w tym czasie się nie zatrzyma wysyła
+                sygnał TERM i KILL</li>
+            <li>-k TERM|KILL – wysyła do zatrzymywanych serwerów sygnał TERM lub KILL</li>
+            <li>-c – zatrzymuje BBL nawet jeśli klienci dalej działają</li>
+        </ul>
+        <b>Przykłady:
+        <p>
+            "tmboot -i 10500 -g GR_WO"
+        </b>, można wyłączyć całą grupę procesów.
+
+        <b>tmshutdown -y</b> - służy do zatrzymania całej aplikacji, pojedynczych serwerów, grup serwerów (analogiczne
+        do polecenia tmboot)<br>
+        <b>tmshutdown -yw9</b> - oczekiwanie max. 9sek na zatrzymanie każdego serwera Tuxedo, następnie "twarde"
+        (wymuszenie zamknięcia opornego serwera Tuxedo w domenie)
+
+        <br><b>tmshutdown -i[ID serwera Tuxedo]</b> - wyłączenie pojedynczego serwera Tuxedo w domenie (np. w
+        przypadku jego zawieszenia)
+        <br><b>tmboot -i[ID serwera Tuxedo]</b> - włączenie pojedynczego serwera Tuxedo w domenie
+        <br>
+        tmshutdown -i2020 lub tmshutdown -i2020 -w2
+        </p>
+
+        <p>
+            <b>Polecenia startu/stopu stosuję się np. gdy jest duże obciążenie (mail z busy domain)</b><br>
+            Procedura, sprawdzić domenę (plik logów), w przypadku gdy działa poprawnie, do uruchomić procesy XZ_ROUTER, aby domena mogła obsłużyć więcej operacji<br>
+            <b>Należy pamiętać, że maksymalna ilość procesów dla domeny jest w pliku ubb.config, nie powinno być więcej, bądź mniej procesów niż zapisane jest w tej konfiguracji</b><br>
+            <b>Należy też pamiętać, że po uruchomieniu i wykryciu spadków obciążenia powinno się zwolnić zwolnić zasoby czyli wyłączyć do uruchomione XZ_ROUTERY tak aby domena pracowała prawidłowo</b>
+        </p>
+        <div class="section-navLink" id="startstop"></div>
+
+        <h4>Polecenia przykładowe (skrypty) dtmso uruchamiania i zatrzymywania domen za pośrednictwem RBAC</h4>
+        <p><b>(Procedura
+                U0020). Polecenia uruchamiamy na użytkowniku "cwipw" (!!! czynności administracyjne wykonywane poza
+                godzinami pracy użytkowników lub wyłącznie w razie awarii
+                i potrzeby ich zastosowania !!!)</b>
+        </p>
+        <p>
+            <span id="tuxss.sh">tuxss.sh</span> - wylacz/wlacz ALL/pojedyncza domene; przelaczniki jak dla poleceń tm/dm
+            <button class="btn btn-success" onclick="copyText('tuxss.sh')">KOPIUJ</button>
+        </p>
+        <p>
+            <span id="tuxstartstop.sh-wylacz-TJOPLAT">/appksi/bin/tuxstartstop.sh wylacz TJOPLAT</span> - wyłącza domenę
+            TJOPLAT
+            <button class="btn btn-success" onclick="copyText('tuxstartstop.sh-wylacz-TJOPLAT')">KOPIUJ</button>
+        </p>
+
+        <p>
+            <span id="tuxstartstop.sh-wylacz-ODDSOI-TJOSOI">/appksi/bin/tuxstartstop.sh wylacz ODDSOI TJOSOI -yw2</span>
+            - wyłącza podane domeny z wymuszeniem zamykania serwerów po 2 sek.
+            <button class="btn btn-success" onclick="copyText('tuxstartstop.sh-wylacz-ODDSOI-TJOSOI')">KOPIUJ</button>
+        </p>
+        <p>
+            <span id="tuxstartstop.sh-kill">/appksi/bin/tuxstartstop.sh kill ODDSOI TJOSOI</span> - po wyłączeniu domeny
+            (tylko i wyłącznie kiedy domena jest już wyłączona !!!) czyszczenie zasobów IPC
+            <button class="btn btn-success" onclick="copyText('tuxstartstop.sh-kill')">KOPIUJ</button>
+        </p>
+        <p>
+            <span id="tuxstartstop.sh-wlacz">/appksi/bin/tuxstartstop.sh wlacz ODDSOI TJOSOI</span> - włącza podane
+            domeny
+            <button class="btn btn-success" onclick="copyText('tuxstartstop.sh-wlacz')">KOPIUJ</button>
+        </p>
+        <p>
+            <span id="tuxstartstop.sh-wlacz-ALL">/appksi/bin/tuxstartstop.sh wlacz ALL</span> - włącza wszystkie domeny
+            na serwerze
+            <button class="btn btn-success" onclick="copyText('tuxstartstop.sh-wlacz-ALL')">KOPIUJ</button>
+        </p>
+        <p>
+            <span id="tuxstartstop.sh-wylacz-ODDSOI-g">/appksi/bin/tuxstartstop.sh wylacz ODDSOI -g GR_FWX -g
+                GR_XKAL</span> - wyłączenie wybranych grup serwerów Tuxedo w podanej domenie
+            <button class="btn btn-success" onclick="copyText('tuxstartstop.sh-wylacz-ODDSOI-g')">KOPIUJ</button>
+        </p>
+
+        <div class="section-navLink" id="proc"></div>
+
+        <h4>
+            Procedury i skrypty do wykonywania procedur A*:
+        </h4>
+        <div id="contentProcA">
+
+        </div>
+        <div class="section-navLink" id="procU"></div>
+
+        <h4>
+            Procedury i skrypty do wykonywania procedur U*:
+        </h4>
+
+        <div id="contentProcU">
+        </div>
+
+        <div class="section-navLink" id="proc-other"></div>
+
+        <h4>
+            Pozostałe procedury:
+        </h4>
+        <div id="contentProcOther">
+        </div>
+        <div class="section-navLink" id="bazyIFX"></div>
+
+        <h4>
+            Procedury wykonywania zapytań na bazie danych ifx
+        </h4>
+        <p>
+            <b>Skrypt do zmiany usera na dbuser<br></b>
+            <span id="dbaksh.sh">dbaksh.sh</span>
+            <button class="btn btn-success" onclick="copyText('dbaksh.sh')">KOPIUJ</button>
+            <br>
+            Automatycznie przypisują wszystkie potrzebne ustawienia do bazy ifx01.
+        </p>
+
+        <p>
+            <b>Skrypt zmieniający typ bazy</b><br>
+            <span id="ifx02seton">. /appksi/ksi/dbadmin/ifx02seton</span>
+            <button class="btn btn-success" onclick="copyText('ifx02seton')">KOPIUJ</button>
+            przypisuję wszystkie potrzebne ustawienia dla bazy ifx02<br>
+            <span id="ifx01seton">. /appksi/ksi/dbadmin/ifx01seton</span> 
+            <button class="btn btn-success" onclick="copyText('ifx01seton')">KOPIUJ</button>
+            przypisuję wszystkie potrzebne ustawienia dla bazy ifx01
+        </p>
+
+        <p>
+            <b>Shelowe narzędzie do wykonywania różnych akcji na silniku bazodanowym<br></b>
+            <span id="dbaccess">dbaccess</span>
+            <button class="btn btn-success" onclick="copyText('dbaccess')">KOPIUJ</button>
+            <br>
+            Umożliwia na wykonanie różnych akcji np. zapytania, wybór baz(jest ich kilka), drop table, drop databases, delete itp. 
+            <h5 style="color: red;"><b>Należy uważać co się klika :)</b></h5>
+        </p>
+
+        <p>
+            <b>Podstawowe czynności przy wykonywaniu zapytań</b><br>
+            Ustawienie poziomu izolacji dla zapytań SELECT to: <b>SET ISOLATION TO DIRTY READ;</b><br>
+            Przy wyrzuceniu danych z bazy do pliku należy użyć polecenie <b>UNLOAD TO 'ścieżka/do/pliku.csv'</b> -> stosuje się je przed poleceniem SELECT<br>
+            Separator dla danych <b>DELIMITER ',' </b> -> domyślnie *gdy nie ma tego polecenia, dane rozdzielone są tabulatorem, w tym przykładzie separatorem jest przecinek.
+        </p>
+
+        <p>
+            <b>
+                Kopiowanie plików tekstowych dla serwera FTP stosować tryb tekstowy, w przypadku innych plików np. archiwum stosować tryb binarny.
+            </b>
+        </p>
+
+        <p>
+            <b>Przykładowe zapytanie wyłuskujące dane z okresu dla danego usera oraz dla danej aplikacji:</b> <br>
+            <span id="exaplleSelect">
+                SET ISOLATION TO DIRTY READ;<br>
+                UNLOAD TO 'ścieżka/do/pliku.csv'<br>
+                SELECT * FROM t_audit_log <br>
+                WHERE log_start > 'RRRR-MM-DD HH:MM:SS'<br>
+                and log_start < 'RRRR-MM-DD HH:MM:SS' <br>
+                and log_username = 'id_Nazwisko1LiterkaImienia'<br>
+                and log_appcode = 'kod_aplikacji np. FW, EPWD, WO'
+            </span>
+            <button class="btn btn-success" onclick="copyText('exaplleSelect')">KOPIUJ</button><br>
+            Do wyciągnięcia log_username stosuję się program, który ma listę użytkowników, stworzyć własne zapytanie, które
+            sprawdzi czy taki użytkownik istnieje lub wyciągnąć listę wszystkich użytkowników tabeli log_username i samemu ją przeszukać
+            ewentualnie z polecenia echo "pclt" |tmadmin w tjo o ile dany użytkownik w danym momencie pracuje(jest zalogowany w aplikacji), powinien się pokazać.
+        </p>
+
+        <p>
+            <b>Przykładowe zapytanie wyświetlające pełną nazwę użytkownika w systemie dla nazwiska</b> <br>
+            <span id="exaplleSelect">
+                SET ISOLATION TO DIRTY READ;<br>
+                SELECT FIRST 1 log_username FROM t_audit_log <br>
+                WHERE log_username LIKE '%NazwiskoSzukanejOsoby%'
+            </span>
+            <button class="btn btn-success" onclick="copyText('exaplleSelect')">KOPIUJ</button><br>
+            <form onsubmit="generateSqlQueryFromLastname(); return false;">
+                <input type="text" id="lastname" placeholder="Podaj nazwisko">
+                <input type="submit" id="submit" value="Stwórz zapytanie" class="btn btn-primary"/>
+            </form>
+        </p>
+        <div class="section-navLink" id="instalation"></div>
+        
+        <h4>
+            Akcje wykonywane na oknie wdrożeniowym z wykorzystaniem tuxedo
+        </h4>
+        <p>
+            <b>Wszystkie potrzebne pliki z skryptami znajdują się w folderze sh.</b><br>
+            1. Sprawdzenie jakie pakiety będą aktualizowane/instalowane.<br>
+            2. Przesłanie paczek na serwer, z którego będą wykonywane wszystkie akcje.<br>
+            3.0. Przygotuj plik z zestawem paczek do instalacji lub zmodyfikuj skrypt kopiujący tak je zawiera. <br>
+            3. Uruchomienie skryptu kopiującego na wszystkie OSABY<br>
+            4.0. Sprawdź czy wszystkie domeny są wyłączone! wroclaw1.zus w lokalizacji AI/bin/AT<br>
+            4.1 Przygotuj plik instalacyjny: Ogólna kolejność instalacji:<br>
+            &nbsp; 1. EME: <b>ACPoddeme</b><br>
+            &nbsp; 2. Kolejność instalacji instalacji dla słowników:<b> 1. saO, 2. slo, 3. sgo </b> <br>
+            &nbsp; 3. Aplikacje: <b>PII, XZ</b><br>
+            4.2. Kontroluj instalację <br>
+            Na koniec w zależności od biznesu uruchamiamy domeny, ale dobrze jest sprawdzić czy po instalacji domeny wstaną, ten sam skrypt: wroclaw1.zus w lokalizaci AI/bin/AT
+        </p>
+
+
+        <div class="section-navLink" id="terminal"></div>
+
+        <p>
+            <b>Terminal Tuxedo :</b>
+        </p>
+        esc (command)
+        esc esc -> tab, ale nie do końca <br>
+        k ⬆️ <br>
+        j ⬇️ <br>
+        l ➡️ <br>
+        h ⬅️ <br>
+        r zamiana <br>
+        R tryb zamieniania (coś jak insert) <br>
+        x usuwanie <br>
+        A koniec + pisanie <br>
+        a next pisanie <br>
+        i przejście do pisania <br>
+        P : wklejenie przed kursorem <br>
+        p : wklejenie po kursorze <br>
+        yy: kopiowanie całej linii <br>
+        y$: kopiowanie wszystkiego od kursora do konia <br>
+        y^: kopiowanie wszystkiego od początku do kursora <br>
+        yiw: kopiowanie 1 słowa <br>
+        dd: usuwanie całej linii <br>
+        d$: usuwanie wszystkiego z kursora do końca
+    </div>
+</body>
+
+<script src="./ProceduresJson.js"></script>
+<script src="./OsabJson.js"></script>
+<script>
+    function copyText(elementId) {
+        var text = document.getElementById(elementId).innerText;
+        copyingText(text);
+    }
+
+    function copyingText(text){
+        navigator.clipboard.writeText(text).then(function () {
+            console.log("Tekst skopiowany: " + text);
+
+            var toastElement = document.getElementById('myToast');
+            document.querySelector('#myToast .toast-body').innerHTML = "Tekst skopiowany: <b>" + text + "</b>";
+            toastElement.classList.add('show');
+
+            setTimeout(function () {
+                toastElement.classList.remove('show');
+            }, 3000);
+        }, function (err) {
+            console.error("Błąd kopiowania: ", err);
+        });
+
+    }
+
+    function toggleList() {
+        const listContainer = document.getElementById('listContainer');
+        const toggleButton = document.querySelector('.btn');
+
+        changeVisibility(listContainer);
+        listContainer.style.display === "none" ? toggleButton.textContent = 'Pokaż listę' : toggleButton.textContent = 'Ukryj listę';
+    }
+
+    function closeMenu() {
+        if (window.innerWidth < 990) {
+            const menu = document.getElementById('navbarNav');
+            menu.style.display = "none";
+        }
+    }
+
+    function toggleMenu() {
+        changeVisibility(document.getElementById('navbarNav'));
+    }
+
+    function changeVisibility(element) {
+        if (element.style.display === "none" || element.style.display === "") {
+            element.style.display = "block";
+        } else {
+            element.style.display = "none";
+
+        }
+    }
+
+    const bodyStyle = window.getComputedStyle(document.body, null);
+    const nav = document.querySelector('nav');
+
+    function setDarkMode() {
+        document.body.style.backgroundColor = '#1E201E';
+        document.body.style.color = '#c9c5bf';
+        nav.classList.add('navbar-dark');
+        nav.classList.add('bg-dark');
+        nav.classList.remove('bg-light');
+    }
+
+    function setLightMode() {
+        document.body.removeAttribute('style');
+        nav.classList.remove('navbar-dark');
+        nav.classList.remove('bg-dark');
+        nav.classList.add('bg-light');
+    }
+
+    function changeViewMode() {
+        const [r, g, b] = bodyStyle.backgroundColor.match(/\d+/g).map(Number);
+
+        if (r > 200 && g > 200 && b > 200) {
+            setDarkMode();
+        } else {
+            setLightMode();
+        }
+
+    }
+
+    function applyTheme() {
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            setDarkMode();
+        } else {
+            setLightMode();
+        }
+    }
+    applyTheme();
+
+    function readProcedures() {
+        // const jsonDateElement = document.getElementById('jsonData');
+        // console.log(jsonDateElement);
+        // const data = jsonData;
+        // console.log(data);
+
+        const contentProcA = document.getElementById('contentProcA');
+        const contentProcU = document.getElementById('contentProcU');
+        const contentProcOther = document.getElementById('contentProcOther');
+
+        // console.log(data.procedures.A);
+        // console.log(data.procedures.U);
+
+        makeBodyOfProcedures(jsonData.procedures.A, contentProcA);
+        makeBodyOfProcedures(jsonData.procedures.U, contentProcU);
+        makeBodyOfProcedures(jsonData.procedures.Other, contentProcOther);
+    }
+
+    function makeBodyOfProcedures(data, content) {
+        data.forEach(item => {
+            const paragraph = document.createElement('p');
+
+            // Dodanie nazwy i tytułu
+            if (item.name || item.title) {
+                const titleText = document.createElement('strong');
+                if (item.name && item.title) {
+                    titleText.textContent = `${item.name} - ${item.title}`;
+                } else {
+                    titleText.textContent = item.name;
+                }
+                paragraph.appendChild(titleText);
+                paragraph.appendChild(document.createElement('br'));
+            }
+
+            // Dodanie skryptu
+            if (item.script) {
+                if (Array.isArray(item.script)) {
+                    item.script.forEach((script, index) => {
+                        const scriptText = document.createElement('span');
+                        scriptText.textContent = script;
+                        scriptText.id = item.name + index;
+                        paragraph.appendChild(scriptText);
+                        addCopyBtn(paragraph, scriptText.id);
+                        paragraph.appendChild(document.createElement('br'));
+                    })
+                } else {
+                    const scriptText = document.createElement('span');
+                    scriptText.textContent = item.script;
+                    scriptText.id = item.name;
+                    paragraph.appendChild(scriptText);
+                    addCopyBtn(paragraph, scriptText.id);
+                    paragraph.appendChild(document.createElement('br'));
+                }
+            }
+
+            // Dodanie podtytułu
+            if (item.subtitle) {
+                const subtitleText = document.createElement('span');
+                subtitleText.innerHTML = item.subtitle;
+                paragraph.appendChild(subtitleText);
+                paragraph.appendChild(document.createElement('br'));
+            }
+
+            // Dodanie linku
+            if (item.link) {
+                const link = document.createElement('a');
+                link.href = item.link;
+                link.target = '_blank';
+                link.textContent = item.link;
+                paragraph.appendChild(link);
+            }
+
+            content.appendChild(paragraph);
+        });
+    }
+
+    function addCopyBtn(paragraph, id) {
+        const button = document.createElement('button');
+        button.className = 'btn btn-success';
+        button.textContent = "KOPIUJ";
+        button.setAttribute('onclick', `copyText('${id}')`);
+        paragraph.appendChild(button);
+    }
+
+    readProcedures();
+
+    function readOsabData() {
+        const osabListInHtml = document.getElementById('listContainer');
+        // console.log(osabListInHtml);
+        osabJson.osab.forEach(item => {
+
+            const div = document.createElement('div');
+            div.className = 'list-item';
+
+            const span = document.createElement('span');
+            span.innerHTML = item
+            span.id = item;
+
+            div.appendChild(span);
+
+            addCopyBtn(div, item);
+            osabListInHtml.appendChild(div);
+        });
+    }
+
+    readOsabData();
+
+
+    function changePdfFileToView(name, title) {
+        const pdfBody = document.getElementById('pdfBody');
+        pdfBody.src = name;
+        pdfBody.title = title;
+    }
+
+    const modalPDF = document.getElementById('pdfModal');
+
+    document.getElementById('openPdf').addEventListener('click', function (event) {
+        changePdfFileToView("DocumentationFiles/TuxedoPDF.pdf", "Warto-wiedziec");
+        event.preventDefault();
+        modalPDF.style.display = 'block';
+    });
+
+    document.getElementById('openPasswordFile').addEventListener('click', function (event) {
+        event.preventDefault();
+        changePdfFileToView("DocumentationFiles/HaslaTuxedo.pdf", "Zmiana haseł");
+        modalPDF.style.display = 'block';
+    });
+
+
+    function closePDF() {
+        modalPDF.style.display = 'none';
+    }
+
+    function generateSqlQueryFromLastname(){
+        const lastname = document.getElementById('lastname').value;
+        copyingText("SET ISOLATION TO DIRTY READ;\nSELECT FIRST 1 log_username FROM t_audit_log \nWHERE log_username LIKE '%"+lastname+"%'");
+    }
+</script>
+
+</html>
+
+
+
+
+SKRYPT DO SZYBKIEGO OGARNIĘCIA SYTUACJI
+olsztyn:/appksi/ksi/cwipw/AI/bin/sprtux
+
+
+--> uprawnia użytkownika do odczytu pliku, bez ingerencji w zapisane uprawnienia
+setacl -m user:nazwa_uzytkownika:r-- plik
+
+
+
+---> ŚRODOWISKO
+. ./odd/cfg/odd.sh
+. ./tjo/cfg/tjo.sh
+
+--->stawianie serwerów (na ustawionej domenie i środowisku)
+tmboot -i idserwera
+
+
+
+---> RESTART SŁOWNIKÓW
+pojedynczo:
+. ./odd/cfg/odd.sh; tmshutdown -i 2200 -yw1; tmboot -i 2200
+. ./odd/cfg/odd.sh; tmshutdown -i 2201 -yw3; tmboot -i 2201
+tmshutdown -i 2202 -yw1; tmboot -i 2202
+
+lub grupą:
+. ./odd/cfg/odd.sh;tmshutdown -s KSI_SLOWNIKI_INF;tmboot -s KSI_SLOWNIKI_INF
+
+
+
+---> restart XR_router kolejno w pętli (np do zwolnienia pamięci)
+
+. ./odd/cfg/odd.sh;for i in `echo psr|tmadmin|grep XZ_R|awk '{print $4}'`;do tmshutdown -i $i -yw1;tmboot -i $i;done; 
+
+
+test podnoszenia XR Routerów
+for i in [2020..2030];do tmboot -i $i;done;
+
+
+---> j.w. ale FWEX_INF / FW_INF / FWBATCH-INF
+. ./odd/cfg/odd.sh;for i in `echo psr|tmadmin|grep FWEX_INF|awk '{print $4}'`;do tmshutdown -i $i -yw1;tmboot -i $i;done;
+. ./odd/cfg/odd.sh;for i in `echo psr|tmadmin|grep FW_INF|awk '{print $4}'`;do tmshutdown -i $i -yw1;tmboot -i $i;done; 
+. ./odd/cfg/odd.sh;for i in `echo psr|tmadmin|grep FWBATCH|awk '{print $4}'`;do tmshutdown -i $i -yw1;tmboot -i $i;done; 
+. ./odd/cfg/odd.sh;for i in `echo psr|tmadmin|grep sprawa.exe|awk '{print $4}'`;do tmshutdown -i $i -yw1;tmboot -i $i;done; 
+
+
+. ./odd/cfg/odd.sh;for i in `echo psr|tmadmin|grep ksi_forward|awk '{print $4}'`;do tmshutdown -i $i -yw1;tmboot -i $i;done; 
+
+---> zużycie pamięci na domenach, sortowane po zajętości 
+
+top -n 3500 -f top.tmp; awk '{s=length($7)}; {if (substr($7,s,1)=="M") print}' <top.tmp |grep tux |sort -rk 7,7; rm top.tmp 
+
+---> instalacja WSL
+osab01.wroclaw1.zus /appksi/ksi/cwipw/AI/bin/AT_WSL/start
+
+
+zwolnienie zasobów
+
+ZASOBY=`ipcs |grep tuxplat|awk '{print "-"$1" "$2}'`
+ipcrm $ZASOBY
+
+---> kasowanie DEPów starszych niż 30 dni
+for i in `cat ~/cfg/osab_all | awk '{ print $3 }'`; do ssh $i "find $HOME/dep -mtime +30 -name \"*.dep.gz\" -exec rm {} \;" ; done
+
+---> skrypt do kontroli procedur
+wroclaw1:/appksi/ksi/cwipw/AI/bin->sprtux
+sprtux jest na ścieżce
+
+---> ustawienie serwera do restartu 
+edycja pliku /AI/out/serv_all na osab01.wroclaw1.zus między godz 14:51 a 15:09
+
+skrypt do ustawienia AT:
+
+wroclaw1:/appksi/ksi/cwipw/AI/bin/AT/ats
+
+
+---> ilość userów
+
+echo pclt | tmadmin | egrep -c "E2|E2R|WER"
+
+
+
+---> restart domeny
+
+tuxss.sh wylacz TJOUBEZ ODDUBEZ -yw1
+tuxss.sh kill TJOUBEZ ODDUBEZ
+tuxss.sh wlacz TJOUBEZ ODDUBEZ
+
+
+tuxss.sh wylacz TJOSOI ODDSOI -yw1
+tuxss.sh kill TJOSOI ODDSOI
+tuxss.sh wlacz TJOSOI ODDSOI
+
+
+*kill opcjonalnie, między wylacz a wlacz
+
+
+tuxss.sh wylacz ODDDKW -w1
+tuxss.sh kill ODDDKW
+tuxss.sh wlacz ODDDKW
+
+tuxss.sh wylacz ODDSOI -w1
+tuxss.sh kill ODDSOI
+tuxss.sh wlacz ODDSOI
+
+tuxss.sh wylacz TJOEME ODDEME -w1
+tuxss.sh kill TJOEME ODDEME
+tuxss.sh wlacz TJOEME ODDEME
+
+
+tuxss.sh wylacz TJOAZB ODDAZB -w1
+tuxss.sh kill TJOAZB ODDAZB
+tuxss.sh wlacz TJOAZB ODDAZB
+
+
+tuxss.sh wylacz TJOSOI ODDSOI -w1
+tuxss.sh kill TJOSOI ODDSOI
+tuxss.sh wlacz TJOSOI ODDSOI
+
+
+tuxss.sh wylacz ODDEME -w1
+tuxss.sh kill ODDEME
+tuxss.sh wlacz ODDEME
+
+
+tuxss.sh wylacz TJOPLAT ODDPLAT -w1
+tuxss.sh kill TJOPLAT ODDPLAT
+tuxss.sh wlacz TJOPLAT ODDPLAT
+
+tuxss.sh wylacz ODDPLAT -w1
+tuxss.sh kill ODDPLAT
+tuxss.sh wlacz ODDPLAT
+
+tuxss.sh wylacz ODDOLP -w1
+tuxss.sh kill ODDOLP
+tuxss.sh wlacz ODDOLP
+
+
+
+tuxss.sh wylacz ODDWEW -w1
+tuxss.sh kill ODDWEW
+tuxss.sh wlacz ODDWEW
+
+tuxss.sh wylacz ODDZAS -w1
+tuxss.sh kill ODDZAS
+tuxss.sh wlacz ODDZAS
+
+
+tuxss.sh wylacz TJOUBEZ ODDUBEZ -w1
+tuxss.sh kill TJOUBEZ ODDUBEZ
+tuxss.sh wlacz TJOUBEZ ODDUBEZ
+
+
+tuxss.sh wylacz TJOSOI ODDSOI -w1
+tuxss.sh kill TJOSOI ODDSOI
+tuxss.sh wlacz TJOSOI ODDSOI
+
+
+tuxss.sh wylacz ODDSOI -w1
+tuxss.sh kill ODDSOI
+tuxss.sh wlacz ODDSOI
+
+tuxss.sh wylacz ODDOLP -w1
+tuxss.sh kill ODDOLP
+tuxss.sh wlacz ODDOLP
+
+
+tuxss.sh wylacz TJOCOT ODDCOT -w1
+tuxss.sh kill TJOCOT ODDCOT
+tuxss.sh wlacz TJOCOT ODDCOT
+
+
+
+
+
+
+
+restart Informixa
+
+/appksi/bin/tuxstartstop.sh wylacz ODDSOI -g GR_FWX
+/appksi/bin/tuxstartstop.sh wlacz ODDSOI -g GR_FWX
+
+/appksi/bin/tuxstartstop.sh wylacz ODDSOI -g GR_XKAL 
+/appksi/bin/tuxstartstop.sh wlacz ODDSOI -g GR_XKAL 
+
+/appksi/bin/tuxstartstop.sh wylacz ODDWEW -g GR_FWX
+/appksi/bin/tuxstartstop.sh wlacz ODDWEW -g GR_FWX
+
+/appksi/bin/tuxstartstop.sh wylacz ODDWEW -g GR_XKAL 
+/appksi/bin/tuxstartstop.sh wlacz ODDWEW -g GR_XKAL 
+
+/appksi/bin/tuxstartstop.sh wylacz ODDAZB -g GR_FWX 
+/appksi/bin/tuxstartstop.sh wlacz ODDAZB -g GR_FWX 
+
+wyłącz dwa serwery :
+FW_BATCHINF i KSI_SLOWNIKI, najpiewr BATCH po tym słowniki
+uruchamianie: też najpierw BATCH 
+
+
+
+---------------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------------
+
+
+openshift
+
+
+
+LOGI Z PODÓW
+
+for i in `oc get pods|awk ' { print $1 } '|grep epwd-prof-cs-profile-eessi`;do `oc logs --since=30m pod/$i>epprof.$i` ;done 
+tar czvf epprof.tar.gz epprof
+
+for i in `oc get pods|awk ' { print $1 } '|grep ake-pr-aprobata-sed`;do `oc logs --since=90m pod/$i>ake-pr-aprobata-sed.$i` ;done 
+
+
+for i in `oc get pods|awk ' { print $1 } '|grep ksi-ake`;do `oc logs --since=90m pod/$i>ksi-ake.$i` ;done 
+
+
+
+for i in `oc get cm --all-namespaces --output yaml|grep rabbit`; do echo $i; done
+
+
+
+ake-pr-dok-us
+ake-pr-aprobata-sed
+
+
+
+oc extract cm/nazwa --to=.
+oc create cm nazwa --from-file=. 
+
+(kropka to wskazanie katalogu)
+
+
+
+BACKUP - będąc w odpowiednim projekcie
+ for i in `oc get cm|grep -v NAME|awk ' { print $1 } '`;do $(oc get cm/$i -o yaml> cm_${i}.yaml);done
+ for i in `oc get svc|grep -v NAME|awk ' { print $1 } '`;do $(oc get svc/$i -o yaml> svc_${i}.yaml);done
+ for i in `oc get route|grep -v NAME|awk ' { print $1 } '`;do $(oc get route/$i -o yaml> route_${i}.yaml);done
+ for i in `oc get secret|grep -v NAME|awk ' { print $1 } '`;do $(oc get secret/$i -o yaml> secret_${i}.yaml);done
+ for i in `oc get dc|grep -v NAME|awk ' { print $1 } '`;do $(oc get dc/$i -o yaml> dc_${i}.yaml);done 
+ 
+ 
+kasowanie EVICTED
+for i in `oc get pods|grep Evicted|awk ' { print $1 } '`;do `echo oc delete pod $i` ;done 
+ 
+ 
+/home/piotr.wrobel/OCF4/sh/get_operators_statuses 
+get_operators_statuses.sh 
+
+rollouty do czyszczenia redisa w PMZ-RAM
+#pmz-parametry-prod
+oc rollout latest dc/pmz-parametry -n pmz-parametry-prod
+oc rollout latest dc/pmz-parametrypue -n pmz-parametry-prod
+#pmz-wnioski-sw-prod
+oc rollout latest dc/pmz-wnioski-local-sw -n pmz-wnioski-sw-prod
+oc rollout latest dc/pmz-wnioski-sw -n pmz-wnioski-sw-prod
+
+
+
+sprawdzanie haproxy
+curl -I "https://www.zus.pl" -x 10.241.2.119:8000
+HTTP/1.1 200 Connection established
