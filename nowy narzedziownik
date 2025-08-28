@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Komendy Linux/Tuxedo - Pomocnik Wdrożeniowy</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        .mono { font-family: 'JetBrains Mono', monospace; }
+        .command-row:hover { background-color: #f8fafc; }
+        .copy-btn { transition: all 0.15s ease; }
+        .copy-btn:hover { transform: scale(1.05); }
+        .copied { background-color: #10b981 !important; }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <div class="container mx-auto px-4 py-6 max-w-7xl">
+        <!-- Header -->
+        <div class="mb-6">
+            <h1 class="text-3xl font-bold text-gray-800 mb-2">🐧 Komendy Linux/Tuxedo</h1>
+            <p class="text-gray-600">Pomocnik podczas wdrożeń i pracy z systemem</p>
+        </div>
+
+        <!-- Domains Table -->
+        <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden mb-8">
+            <div class="bg-gray-50 border-b border-gray-200 px-4 py-3">
+                <h2 class="text-lg font-semibold text-gray-800 flex items-center gap-2">
+                    🌐 Domeny i Aplikacje
+                </h2>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full">
+                    <thead class="bg-gray-50 border-b border-gray-200">
+                        <tr>
+                            <th class="text-left py-3 px-4 font-medium text-gray-700 text-sm w-1/3">Domena</th>
+                            <th class="text-left py-3 px-4 font-medium text-gray-700 text-sm w-1/3">Aplikacje</th>
+                            <th class="text-left py-3 px-4 font-medium text-gray-700 text-sm w-1/3">Skrypt</th>
+                            <th class="text-center py-3 px-4 font-medium text-gray-700 text-sm w-20">Kopiuj</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="border-b border-gray-100 hover:bg-gray-50">
+                            <td class="py-3 px-4">
+                                <div class="flex items-center gap-2">
+                                    <span class="w-3 h-3 bg-green-500 rounded-full"></span>
+                                    <span class="font-medium text-gray-800">production.example.com</span>
+                                </div>
+                            </td>
+                            <td class="py-3 px-4">
+                                <div class="flex flex-wrap gap-1">
+                                    <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">Web App</span>
+                                    <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded">API</span>
+                                </div>
+                            </td>
+                            <td class="py-3 px-4">
+                                <code class="mono text-sm bg-gray-100 px-2 py-1 rounded text-gray-800">./deploy-prod.sh</code>
+                            </td>
+                            <td class="py-3 px-4 text-center">
+                                <button onclick="copyCommand('./deploy-prod.sh', this)" class="copy-btn bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded text-sm font-medium">📋 Kopiuj</button>
+                            </td>
+                        </tr>
+                        
+                        <tr class="border-b border-gray-100 hover:bg-gray-50">
+                            <td class="py-3 px-4">
+                                <div class="flex items-center gap-2">
+                                    <span class="w-3 h-3 bg-yellow-500 rounded-full"></span>
+                                    <span class="font-medium text-gray-800">staging.example.com</span>
+                                </div>
+                            </td>
+                            <td class="py-3 px-4">
+                                <div class="flex flex-wrap gap-1">
+                                    <span class="bg-yellow-100 text-yellow-800 text-xs px-2 py-1 rounded">Test App</span>
+                                    <span class="bg-purple-100 text-purple-800 text-xs px-2 py-1 rounded">Database</span>
+                                </div>
+                            </td>
+                            <td class="py-3 px-4">
+                                <code class="mono text-sm bg-gray-100 px-2 py-1 rounded text-gray-800">./deploy-staging.sh</code>
+                            </td>
+                            <td class="py-3 px-4 text-center">
+                                <button onclick="copyCommand('./deploy-staging.sh', this)" class="copy-btn bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded text-sm font-medium">📋 Kopiuj</button>
+                            </td>
+                        </tr>
+                        
+                        <tr class="border-b border-gray-100 hover:bg-gray-50">
+                            <td class="py-3 px-4">
+                                <div class="flex items-center gap-2">
+                                    <span class="w-3 h-3 bg-blue-500 rounded-full"></span>
+                                    <span class="font-medium text-gray-800">dev.example.com</span>
+                                </div>
+                            </td>
+                            <td class="py-3 px-4">
+                                <div class="flex flex-wrap gap-1">
+                                    <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">Dev Tools</span>
+                                    <span class="bg-red-100 text-red-800 text-xs px-2 py-1 rounded">Monitoring</span>
+                                </div>
+                            </td>
+                            <td class="py-3 px-4">
+                                <code class="mono text-sm bg-gray-100 px-2 py-1 rounded text-gray-800">./deploy-dev.sh</code>
+                            </td>
+                            <td class="py-3 px-4 text-center">
+                                <button onclick="copyCommand('./deploy-dev.sh', this)" class="copy-btn bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded text-sm font-medium">📋 Kopiuj</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Search and Filter -->
+        <div class="mb-6 flex flex-col sm:flex-row gap-3">
+            <input type="text" id="searchInput" placeholder="Szukaj komendy lub opisu..." 
+                   class="flex-1 px-3 py-2 text-sm rounded-md border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none">
+            <select id="categoryFilter" class="px-3 py-2 text-sm rounded-md border border-gray-300 focus:ring-2 focus:ring-blue-500 outline-none">
+                <option value="">Wszystkie kategorie</option>
+                <option value="system">System</option>
+                <option value="network">Sieć</option>
+                <option value="files">Pliki</option>
+                <option value="process">Procesy</option>
+                <option value="disk">Dysk</option>
+                <option value="logs">Logi</option>
+            </select>
+        </div>
+
+        <!-- Commands Table -->
+        <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden mb-8">
+            <div class="overflow-x-auto">
+                <table class="w-full">
+                    <thead class="bg-gray-50 border-b border-gray-200">
+                        <tr>
+                            <th class="text-left py-3 px-4 font-medium text-gray-700 text-sm w-1/3">Opis</th>
+                            <th class="text-left py-3 px-4 font-medium text-gray-700 text-sm w-1/2">Komenda</th>
+                            <th class="text-center py-3 px-4 font-medium text-gray-700 text-sm w-20">Kopiuj</th>
+                        </tr>
+                    </thead>
+                    <tbody id="commandsTable">
+                        <!-- System Commands -->
+                        <tr class="command-row border-b border-gray-100" data-category="system">
+                            <td class="py-3 px-4">
+                                <div class="flex items-center gap-2">
+                                    <span class="inline-block bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">System</span>
+                                    <span class="text-sm text-gray-700">Informacje o systemie</span>
+                                </div>
+                                <button onclick="toggleParams(this)" class="mt-1 text-blue-600 hover:text-blue-800 text-xs">📋 parametry</button>
+                            </td>
+                            <td class="py-3 px-4">
+                                <code class="mono text-sm bg-gray-100 px-3 py-2 rounded text-gray-800 block">uname -a</code>
+                            </td>
+                            <td class="py-3 px-4 text-center">
+                                <button onclick="copyCommand('uname -a', this)" class="copy-btn bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded text-sm font-medium">📋 Kopiuj</button>
+                            </td>
+                        </tr>
+                        <tr class="params-row hidden">
+                            <td colspan="3" class="px-4 py-3 bg-blue-50 border-b border-gray-100">
+                                <div class="text-xs text-gray-700">
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+                                        <div><code class="bg-white px-1 rounded">-a</code> - wszystkie informacje</div>
+                                        <div><code class="bg-white px-1 rounded">-s</code> - nazwa systemu</div>
+                                        <div><code class="bg-white px-1 rounded">-r</code> - wersja kernela</div>
+                                        <div><code class="bg-white px-1 rounded">-m</code> - architektura</div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr class="command-row border-b border-gray-100" data-category="system">
+                            <td class="py-3 px-4">
+                                <div class="flex items-center gap-2">
+                                    <span class="inline-block bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">System</span>
+                                    <span class="text-sm text-gray-700">Wersja dystrybucji</span>
+                                </div>
+                            </td>
+                            <td class="py-3 px-4">
+                                <code class="mono text-sm bg-gray-100 px-3 py-2 rounded text-gray-800 block">lsb_release -a</code>
+                            </td>
+                            <td class="py-3 px-4 text-center">
+                                <button onclick="copyCommand('lsb_release -a', this)" class="copy-btn bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded text-sm font-medium">📋 Kopiuj</button>
+                            </td>
+                        </tr>
+
+                        <tr class="command-row border-b border-gray-100" data-category="system">
+                            <td class="py-3 px-4">
+                                <div class="flex items-center gap-2">
+                                    <span class="inline-block bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">System</span>
+                                    <span class="text-sm text-gray-700">Aktualizacja systemu</span>
+                                </div>
+                            </td>
+                            <td class="py-3 px-4">
+                                <code class="mono text-sm bg-gray-100 px-3 py-2 rounded text-gray-800 block">sudo apt update && sudo apt upgrade -y</code>
+                            </td>
+                            <td class="py-3 px-4 text-center">
+                                <button onclick="copyCommand('sudo apt update && sudo apt upgrade -y', this)" class="copy-btn bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded text-sm font-medium">📋 Kopiuj</button>
+                            </td>
+                        </tr>
+
+                        <tr class="command-row border-b border-gray-100" data-category="system">
+                            <td class="py-3 px-4">
+                                <div class="flex items-center gap-2">
+                                    <span class="inline-block bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">System</span>
+                                    <span class="text-sm text-gray-700">Użycie pamięci</span>
+                                </div>
+                            </td>
+                            <td class="py-3 px-4">
+                                <code class="mono text-sm bg-gray-100 px-3 py-2 rounded text-gray-800 block">free -h</code>
+                            </td>
+                            <td class="py-3 px-4 text-center">
+                                <button onclick="copyCommand('free -h', this)" class="copy-btn bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded text-sm font-medium">📋 Kopiuj</button>
+                            </td>
+                        </tr>
+
+                        <!-- Disk Commands -->
+                        <tr class="command-row border-b border-gray-100" data-category="disk">
+                            <td class="py-3 px-4">
+                                <div class="flex items-center gap-2">
+                                    <span class="inline-block bg-purple-100 text-purple-800 text-xs px-2 py-1 rounded">Dysk</span>
+                                    <span class="text-sm text-gray-700">Użycie dysku</span>
+                                </div>
+                                <button onclick="toggleParams(this)" class="mt-1 text-blue-600 hover:text-blue-800 text-xs">📋 parametry</button>
+                            </td>
+                            <td class="py-3 px-4">
+                                <code class="mono text-sm bg-gray-100 px-3 py-2 rounded text-gray-800 block">df -h</code>
+                            </td>
+                            <td class="py-3 px-4 text-center">
+                                <button onclick="copyCommand('df -h', this)" class="copy-btn bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded text-sm font-medium">📋 Kopiuj</button>
+                            </td>
+                        </tr>
+                        <tr class="params-row hidden">
+                            <td colspan="3" class="px-4 py-3 bg-purple-50 border-b border-gray-100">
+                                <div class="text-xs text-gray-700">
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+                                        <div><code class="bg-white px-1 rounded">-h</code> - format czytelny dla człowieka</div>
+                                        <div><code class="bg-white px-1 rounded">-T</code> - pokaż typ systemu plików</div>
+                                        <div><code class="bg-white px-1 rounded">-i</code> - informacje o inodach</div>
+                                        <div><code class="bg-white px-1 rounded">-a</code> - wszystkie systemy plików</div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr class="command-row border-b border-gray-100" data-category="disk">
+                            <td class="py-3 px-4">
+                                <div class="flex items-center gap-2">
+                                    <span class="inline-block bg-purple-100 text-purple-800 text-xs px-2 py-1 rounded">Dysk</span>
+                                    <span class="text-sm text-gray-700">Rozmiar katalogu</span>
+                                </div>
+                            </td>
+                            <td class="py-3 px-4">
+                                <code class="mono text-sm bg-gray-100 px-3 py-2 rounded text-gray-800 block">du -sh *</code>
+                            </td>
+                            <td class="py-3 px-4 text-center">
+                                <button onclick="copyCommand('du -sh *', this)" class="copy-btn bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded text-sm font-medium">📋 Kopiuj</button>
+                            </td>
+                        </tr>
+
+                        <!-- Network Commands -->
+                        <tr class="command-row border-b border-gray-100" data-category="network">
+                            <td class="py-3 px-4">
+                                <div class="flex items-center gap-2">
+                                    <span class="inline-block bg-green-100 text-green-800 text-xs px-2 py-1 rounded">Sieć</span>
+                                    <span class="text-sm text-gray-700">Interfejsy sieciowe</span>
+                                </div>
+                            </td>
+                            <td class="py-3 px-4">
+                                <code class="mono text-sm bg-gray-100 px-3 py-2 rounded text-gray-800 block">ip addr show</code>
+                            </td>
+                            <td class="py-3 px-4 text-center">
+                                <button onclick="copyCommand('ip addr show', this)" class="copy-btn bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded text-sm font-medium">📋 Kopiuj</button>
+                            </td>
+                        </tr>
+
+                        <tr class="command-row border-b border-gray-100" data-category="network">
+                            <td class="py-3 px-4">
+                                <div class="flex items-center gap-2">
+                                    <span class="inline-block bg-green-100 text-green-800 text-xs px-2 py-1 rounded">Sieć</span>
+                                    <span class="text-sm text-gray-700">Test połączenia</span>
+                                </div>
+                            </td>
+                            <td class="py-3 px-4">
+                                <code class="mono text-sm bg-gray-100 px-3 py-2 rounded text-gray-800 block">ping -c 4 google.com</code>
+                            </td>
+                            <td class="py-3 px-4 text-center">
+                                <button onclick="copyCommand('ping -c 4 google.com', this)" class="copy-btn bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded text-sm font-medium">📋 Kopiuj</button>
+                            </td>
+                        </tr>
+
+                        <!-- Process Commands -->
+                        <tr class="command-row border-b border-gray-100" data-category="process">
+                            <td class="py-3 px-4">
+                                <div class="flex items-center gap-2">
+                                    <span class="inline-block bg-orange-100 text-orange-800 text-xs px-2 py-1 rounded">Procesy</span>
+                                    <span class="text-sm text-gray-700">Monitor procesów</span>
+                                </div>
+                            </td>
+                            <td class="py-3 px-4">
+                                <code class="mono text-sm bg-gray-100 px-3 py-2 rounded text-gray-800 block">htop</code>
+                            </td>
+                            <td class="py-3 px-4 text-center">
+                                <button onclick="copyCommand('htop', this)" class="copy-btn bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded text-sm font-medium">📋 Kopiuj</button>
+                            </td>
+                        </tr>
+
+                        <!-- Files Commands -->
+                        <tr class="command-row border-b border-gray-100" data-category="files">
+                            <td class="py-3 px-4">
+                                <div class="flex items-center gap-2">
+                                    <span class="inline-block bg-yellow-100 text-yellow-800 text-xs px-2 py-1 rounded">Pliki</span>
+                                    <span class="text-sm text-gray-700">Znajdź duże pliki</span>
+                                </div>
+                                <button onclick="toggleParams(this)" class="mt-1 text-blue-600 hover:text-blue-800 text-xs">📋 parametry</button>
+                            </td>
+                            <td class="py-3 px-4">
+                                <code class="mono text-sm bg-gray-100 px-3 py-2 rounded text-gray-800 block">find . -size +100M -type f</code>
+                            </td>
+                            <td class="py-3 px-4 text-center">
+                                <button onclick="copyCommand('find . -size +100M -type f', this)" class="copy-btn bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded text-sm font-medium">📋 Kopiuj</button>
+                            </td>
+                        </tr>
+                        <tr class="params-row hidden">
+                            <td colspan="3" class="px-4 py-3 bg-yellow-50 border-b border-gray-100">
+                                <div class="text-xs text-gray-700">
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+                                        <div><code class="bg-white px-1 rounded">-size +100M</code> - pliki większe niż 100MB</div>
+                                        <div><code class="bg-white px-1 rounded">-size -10M</code> - pliki mniejsze niż 10MB</div>
+                                        <div><code class="bg-white px-1 rounded">-type f</code> - tylko pliki (nie katalogi)</div>
+                                        <div><code class="bg-white px-1 rounded">-type d</code> - tylko katalogi</div>
+                                        <div><code class="bg-white px-1 rounded">-name "*.txt"</code> - pliki z rozszerzeniem .txt</div>
+                                        <div><code class="bg-white px-1 rounded">-mtime -7</code> - zmodyfikowane w ostatnich 7 dniach</div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- Logs Commands -->
+                        <tr class="command-row border-b border-gray-100" data-category="logs">
+                            <td class="py-3 px-4">
+                                <div class="flex items-center gap-2">
+                                    <span class="inline-block bg-red-100 text-red-800 text-xs px-2 py-1 rounded">Logi</span>
+                                    <span class="text-sm text-gray-700">Ostatnie logi systemowe</span>
+                                </div>
+                            </td>
+                            <td class="py-3 px-4">
+                                <code class="mono text-sm bg-gray-100 px-3 py-2 rounded text-gray-800 block">journalctl -n 50</code>
+                            </td>
+                            <td class="py-3 px-4 text-center">
+                                <button onclick="copyCommand('journalctl -n 50', this)" class="copy-btn bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded text-sm font-medium">📋 Kopiuj</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Deployment Actions Section -->
+        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-8">
+            <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
+                🚀 Akcje wykonywane na oknie wdrożeniowym
+            </h2>
+            <div class="space-y-3">
+                <div class="flex items-start gap-3 p-3 bg-blue-50 rounded-lg">
+                    <span class="bg-blue-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold">1</span>
+                    <div>
+                        <h3 class="font-medium text-gray-800">Sprawdzenie stanu systemu</h3>
+                        <p class="text-sm text-gray-600">Weryfikacja wersji systemu, dostępnej pamięci i miejsca na dysku</p>
+                    </div>
+                </div>
+                
+                <div class="flex items-start gap-3 p-3 bg-green-50 rounded-lg">
+                    <span class="bg-green-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold">2</span>
+                    <div>
+                        <h3 class="font-medium text-gray-800">Aktualizacja pakietów systemowych</h3>
+                        <p class="text-sm text-gray-600">Wykonanie pełnej aktualizacji systemu przed wdrożeniem</p>
+                    </div>
+                </div>
+                
+                <div class="flex items-start gap-3 p-3 bg-yellow-50 rounded-lg">
+                    <span class="bg-yellow-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold">3</span>
+                    <div>
+                        <h3 class="font-medium text-gray-800">Konfiguracja sieci</h3>
+                        <p class="text-sm text-gray-600">Sprawdzenie połączenia sieciowego i konfiguracji interfejsów</p>
+                    </div>
+                </div>
+                
+                <div class="flex items-start gap-3 p-3 bg-purple-50 rounded-lg">
+                    <span class="bg-purple-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold">4</span>
+                    <div>
+                        <h3 class="font-medium text-gray-800">Instalacja wymaganych pakietów</h3>
+                        <p class="text-sm text-gray-600">Instalacja wszystkich zależności potrzebnych do wdrożenia</p>
+                    </div>
+                </div>
+                
+                <div class="flex items-start gap-3 p-3 bg-red-50 rounded-lg">
+                    <span class="bg-red-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold">5</span>
+                    <div>
+                        <h3 class="font-medium text-gray-800">Weryfikacja końcowa</h3>
+                        <p class="text-sm text-gray-600">Sprawdzenie logów systemowych i statusu usług po wdrożeniu</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tuxedo Terminal Section -->
+        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+            <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
+                🖥️ Terminal Tuxedo
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div class="p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
+                    <div class="flex items-center gap-3 mb-2">
+                        <span class="text-2xl">⚡</span>
+                        <h3 class="font-medium text-gray-800">Ctrl + Alt + T</h3>
+                    </div>
+                    <p class="text-sm text-gray-600">Otwiera nowy terminal</p>
+                </div>
+                
+                <div class="p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
+                    <div class="flex items-center gap-3 mb-2">
+                        <span class="text-2xl">📋</span>
+                        <h3 class="font-medium text-gray-800">Ctrl + Shift + C</h3>
+                    </div>
+                    <p class="text-sm text-gray-600">Kopiuje zaznaczony tekst</p>
+                </div>
+                
+                <div class="p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
+                    <div class="flex items-center gap-3 mb-2">
+                        <span class="text-2xl">📄</span>
+                        <h3 class="font-medium text-gray-800">Ctrl + Shift + V</h3>
+                    </div>
+                    <p class="text-sm text-gray-600">Wkleja tekst ze schowka</p>
+                </div>
+                
+                <div class="p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
+                    <div class="flex items-center gap-3 mb-2">
+                        <span class="text-2xl">🔍</span>
+                        <h3 class="font-medium text-gray-800">Ctrl + Shift + F</h3>
+                    </div>
+                    <p class="text-sm text-gray-600">Wyszukiwanie w terminalu</p>
+                </div>
+                
+                <div class="p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
+                    <div class="flex items-center gap-3 mb-2">
+                        <span class="text-2xl">📑</span>
+                        <h3 class="font-medium text-gray-800">Ctrl + Shift + T</h3>
+                    </div>
+                    <p class="text-sm text-gray-600">Otwiera nową kartę</p>
+                </div>
+                
+                <div class="p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
+                    <div class="flex items-center gap-3 mb-2">
+                        <span class="text-2xl">🔄</span>
+                        <h3 class="font-medium text-gray-800">Ctrl + C</h3>
+                    </div>
+                    <p class="text-sm text-gray-600">Przerywa wykonywanie komendy</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stats -->
+        <div class="mt-6 text-sm text-gray-600 text-center">
+            Wyświetlono <span id="visibleCount">12</span> z <span id="totalCount">12</span> komend
+        </div>
+
+        <!-- Toast -->
+        <div id="toast" class="fixed top-4 right-4 bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg transform translate-x-full transition-transform duration-300 text-sm">
+            ✅ Skopiowano do schowka!
+        </div>
+    </div>
+
+    <script>
+        function copyCommand(command, button) {
+            navigator.clipboard.writeText(command).then(function() {
+                const originalText = button.innerHTML;
+                const originalClass = button.className;
+                
+                button.innerHTML = '✅ Skopiowano!';
+                button.classList.add('copied');
+                
+                showToast();
+                
+                setTimeout(() => {
+                    button.innerHTML = originalText;
+                    button.className = originalClass;
+                }, 2000);
+            }).catch(function(err) {
+                console.error('Błąd kopiowania: ', err);
+                button.innerHTML = '❌ Błąd';
+                setTimeout(() => {
+                    button.innerHTML = '📋 Kopiuj';
+                }, 2000);
+            });
+        }
+
+        function showToast() {
+            const toast = document.getElementById('toast');
+            toast.classList.remove('translate-x-full');
+            setTimeout(() => {
+                toast.classList.add('translate-x-full');
+            }, 3000);
+        }
+
+        function updateStats() {
+            const total = document.querySelectorAll('.command-row').length;
+            const visible = document.querySelectorAll('.command-row:not([style*="display: none"])').length;
+            document.getElementById('totalCount').textContent = total;
+            document.getElementById('visibleCount').textContent = visible;
+        }
+
+        // Search functionality
+        document.getElementById('searchInput').addEventListener('input', function(e) {
+            filterCommands();
+        });
+
+        document.getElementById('categoryFilter').addEventListener('change', function(e) {
+            filterCommands();
+        });
+
+        function toggleParams(button) {
+            const row = button.closest('tr');
+            const paramsRow = row.nextElementSibling;
+            
+            if (paramsRow && paramsRow.classList.contains('params-row')) {
+                if (paramsRow.classList.contains('hidden')) {
+                    paramsRow.classList.remove('hidden');
+                    button.textContent = '📋 ukryj';
+                } else {
+                    paramsRow.classList.add('hidden');
+                    button.textContent = '📋 parametry';
+                }
+            }
+        }
+
+        function filterCommands() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const categoryFilter = document.getElementById('categoryFilter').value;
+            const rows = document.querySelectorAll('.command-row');
+            
+            rows.forEach(row => {
+                const category = row.dataset.category;
+                const description = row.cells[0].textContent.toLowerCase();
+                const command = row.cells[1].textContent.toLowerCase();
+                
+                const matchesSearch = searchTerm === '' || description.includes(searchTerm) || command.includes(searchTerm);
+                const matchesCategory = categoryFilter === '' || category === categoryFilter;
+                
+                if (matchesSearch && matchesCategory) {
+                    row.style.display = '';
+                    // Also show/hide corresponding params row
+                    const paramsRow = row.nextElementSibling;
+                    if (paramsRow && paramsRow.classList.contains('params-row')) {
+                        paramsRow.style.display = matchesSearch && matchesCategory ? '' : 'none';
+                    }
+                } else {
+                    row.style.display = 'none';
+                    // Hide params row too
+                    const paramsRow = row.nextElementSibling;
+                    if (paramsRow && paramsRow.classList.contains('params-row')) {
+                        paramsRow.style.display = 'none';
+                    }
+                }
+            });
+            
+            updateStats();
+        }
+
+        // Initialize stats
+        updateStats();
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97632c3336c9fc94',t:'MTc1NjM3NzQzOS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
