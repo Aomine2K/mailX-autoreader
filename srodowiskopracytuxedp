@@ -1,0 +1,29 @@
+<section class="bg-gray-50 p-6 rounded-lg shadow-md mt-6">
+  <h2 class="text-2xl font-bold mb-4">Ustawienia środowiska domeny Tuxedo</h2>
+
+  <div class="mb-4">
+    <h3 class="text-xl font-semibold mb-2">Ładowanie konfiguracji środowiska</h3>
+    <p class="mb-1">Przygotowanie środowiska ODD i TJO:</p>
+    <pre class="bg-gray-100 p-2 rounded">
+. ./odd/cfg/odd.sh
+. ./tjo/cfg/tjo.sh
+    </pre>
+  </div>
+
+  <div class="mb-4">
+    <h3 class="text-xl font-semibold mb-2">Ustawienie serwera do restartu</h3>
+    <p class="mb-1">Wybierz serwer i uruchom go na ustawionym środowisku:</p>
+    <pre class="bg-gray-100 p-2 rounded">tmboot -i idserwera</pre>
+  </div>
+
+  <div class="mb-4">
+    <h3 class="text-xl font-semibold mb-2">Restart domeny</h3>
+    <p class="mb-1">Wyłącz, opcjonalnie kill, następnie włącz domenę:</p>
+    <pre class="bg-gray-100 p-2 rounded">
+tuxss.sh wylacz TJOUBEZ ODDUBEZ -yw1
+tuxss.sh kill TJOUBEZ ODDUBEZ
+tuxss.sh wlacz TJOUBEZ ODDUBEZ
+    </pre>
+  </div>
+
+</section>
