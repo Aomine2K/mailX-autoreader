@@ -1,0 +1,209 @@
+<!-- Tuxedo Terminal Section -->
+<div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+    <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
+        🖥️ Terminal Tuxedo
+    </h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <!-- Istniejące polecenia -->
+        <div class="p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
+            <div class="flex items-center gap-3 mb-2">
+                <span class="text-2xl">⚡</span>
+                <h3 class="font-medium text-gray-800">Ctrl + Alt + T</h3>
+            </div>
+            <p class="text-sm text-gray-600">Otwiera nowy terminal</p>
+        </div>
+        
+        <div class="p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
+            <div class="flex items-center gap-3 mb-2">
+                <span class="text-2xl">📋</span>
+                <h3 class="font-medium text-gray-800">Ctrl + Shift + C</h3>
+            </div>
+            <p class="text-sm text-gray-600">Kopiuje zaznaczony tekst</p>
+        </div>
+        
+        <div class="p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
+            <div class="flex items-center gap-3 mb-2">
+                <span class="text-2xl">📄</span>
+                <h3 class="font-medium text-gray-800">Ctrl + Shift + V</h3>
+            </div>
+            <p class="text-sm text-gray-600">Wkleja tekst ze schowka</p>
+        </div>
+        
+        <div class="p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
+            <div class="flex items-center gap-3 mb-2">
+                <span class="text-2xl">🔍</span>
+                <h3 class="font-medium text-gray-800">Ctrl + Shift + F</h3>
+            </div>
+            <p class="text-sm text-gray-600">Wyszukiwanie w terminalu</p>
+        </div>
+        
+        <div class="p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
+            <div class="flex items-center gap-3 mb-2">
+                <span class="text-2xl">📑</span>
+                <h3 class="font-medium text-gray-800">Ctrl + Shift + T</h3>
+            </div>
+            <p class="text-sm text-gray-600">Otwiera nową kartę</p>
+        </div>
+        
+        <div class="p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
+            <div class="flex items-center gap-3 mb-2">
+                <span class="text-2xl">🔄</span>
+                <h3 class="font-medium text-gray-800">Ctrl + C</h3>
+            </div>
+            <p class="text-sm text-gray-600">Przerywa wykonywanie komendy</p>
+        </div>
+
+        <!-- Nowe polecenia -->
+        <div class="p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
+            <div class="flex items-center gap-3 mb-2">
+                <span class="text-2xl">⏹️</span>
+                <h3 class="font-medium text-gray-800">Esc</h3>
+            </div>
+            <p class="text-sm text-gray-600">Tryb poleceń</p>
+        </div>
+
+        <div class="p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
+            <div class="flex items-center gap-3 mb-2">
+                <span class="text-2xl">⬆️</span>
+                <h3 class="font-medium text-gray-800">k</h3>
+            </div>
+            <p class="text-sm text-gray-600">Ruch kursora w górę</p>
+        </div>
+
+        <div class="p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
+            <div class="flex items-center gap-3 mb-2">
+                <span class="text-2xl">⬇️</span>
+                <h3 class="font-medium text-gray-800">j</h3>
+            </div>
+            <p class="text-sm text-gray-600">Ruch kursora w dół</p>
+        </div>
+
+        <div class="p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
+            <div class="flex items-center gap-3 mb-2">
+                <span class="text-2xl">➡️</span>
+                <h3 class="font-medium text-gray-800">l</h3>
+            </div>
+            <p class="text-sm text-gray-600">Ruch kursora w prawo</p>
+        </div>
+
+        <div class="p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
+            <div class="flex items-center gap-3 mb-2">
+                <span class="text-2xl">⬅️</span>
+                <h3 class="font-medium text-gray-800">h</h3>
+            </div>
+            <p class="text-sm text-gray-600">Ruch kursora w lewo</p>
+        </div>
+
+        <div class="p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
+            <div class="flex items-center gap-3 mb-2">
+                <span class="text-2xl">🔄</span>
+                <h3 class="font-medium text-gray-800">r</h3>
+            </div>
+            <p class="text-sm text-gray-600">Zamiana znaku pod kursorem</p>
+        </div>
+
+        <div class="p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
+            <div class="flex items-center gap-3 mb-2">
+                <span class="text-2xl">✏️</span>
+                <h3 class="font-medium text-gray-800">R</h3>
+            </div>
+            <p class="text-sm text-gray-600">Tryb zamiany (insert)</p>
+        </div>
+
+        <div class="p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
+            <div class="flex items-center gap-3 mb-2">
+                <span class="text-2xl">❌</span>
+                <h3 class="font-medium text-gray-800">x</h3>
+            </div>
+            <p class="text-sm text-gray-600">Usuwanie znaku pod kursorem</p>
+        </div>
+
+        <div class="p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
+            <div class="flex items-center gap-3 mb-2">
+                <span class="text-2xl">🖊️</span>
+                <h3 class="font-medium text-gray-800">i</h3>
+            </div>
+            <p class="text-sm text-gray-600">Przejście do trybu pisania</p>
+        </div>
+
+        <div class="p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
+            <div class="flex items-center gap-3 mb-2">
+                <span class="text-2xl">🖊️</span>
+                <h3 class="font-medium text-gray-800">a</h3>
+            </div>
+            <p class="text-sm text-gray-600">Wstawienie tekstu po kursorem</p>
+        </div>
+
+        <div class="p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
+            <div class="flex items-center gap-3 mb-2">
+                <span class="text-2xl">🖊️</span>
+                <h3 class="font-medium text-gray-800">A</h3>
+            </div>
+            <p class="text-sm text-gray-600">Wstawienie tekstu na końcu linii</p>
+        </div>
+
+        <div class="p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
+            <div class="flex items-center gap-3 mb-2">
+                <span class="text-2xl">📌</span>
+                <h3 class="font-medium text-gray-800">p</h3>
+            </div>
+            <p class="text-sm text-gray-600">Wklejenie po kursorem</p>
+        </div>
+
+        <div class="p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
+            <div class="flex items-center gap-3 mb-2">
+                <span class="text-2xl">📌</span>
+                <h3 class="font-medium text-gray-800">P</h3>
+            </div>
+            <p class="text-sm text-gray-600">Wklejenie przed kursorem</p>
+        </div>
+
+        <div class="p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
+            <div class="flex items-center gap-3 mb-2">
+                <span class="text-2xl">📄</span>
+                <h3 class="font-medium text-gray-800">yy</h3>
+            </div>
+            <p class="text-sm text-gray-600">Kopiowanie całej linii</p>
+        </div>
+
+        <div class="p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
+            <div class="flex items-center gap-3 mb-2">
+                <span class="text-2xl">📄</span>
+                <h3 class="font-medium text-gray-800">y$</h3>
+            </div>
+            <p class="text-sm text-gray-600">Kopiowanie od kursora do końca linii</p>
+        </div>
+
+        <div class="p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
+            <div class="flex items-center gap-3 mb-2">
+                <span class="text-2xl">📄</span>
+                <h3 class="font-medium text-gray-800">y^</h3>
+            </div>
+            <p class="text-sm text-gray-600">Kopiowanie od początku linii do kursora</p>
+        </div>
+
+        <div class="p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
+            <div class="flex items-center gap-3 mb-2">
+                <span class="text-2xl">📄</span>
+                <h3 class="font-medium text-gray-800">yiw</h3>
+            </div>
+            <p class="text-sm text-gray-600">Kopiowanie jednego słowa</p>
+        </div>
+
+        <div class="p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
+            <div class="flex items-center gap-3 mb-2">
+                <span class="text-2xl">❌</span>
+                <h3 class="font-medium text-gray-800">dd</h3>
+            </div>
+            <p class="text-sm text-gray-600">Usuwanie całej linii</p>
+        </div>
+
+        <div class="p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
+            <div class="flex items-center gap-3 mb-2">
+                <span class="text-2xl">❌</span>
+                <h3 class="font-medium text-gray-800">d$</h3>
+            </div>
+            <p class="text-sm text-gray-600">Usuwanie od kursora do końca linii</p>
+        </div>
+    </div>
+</div>
