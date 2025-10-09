@@ -1,0 +1,85 @@
+ <!-- Tuxedo Terminal Section -->
+        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+            <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
+                🖥️ Terminal Tuxedo
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div class="p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
+                    <div class="flex items-center gap-3 mb-2">
+                        <span class="text-2xl">⚡</span>
+                        <h3 class="font-medium text-gray-800">Ctrl + Alt + T</h3>
+                    </div>
+                    <p class="text-sm text-gray-600">Otwiera nowy terminal</p>
+                </div>
+                
+                <div class="p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
+                    <div class="flex items-center gap-3 mb-2">
+                        <span class="text-2xl">📋</span>
+                        <h3 class="font-medium text-gray-800">Ctrl + Shift + C</h3>
+                    </div>
+                    <p class="text-sm text-gray-600">Kopiuje zaznaczony tekst</p>
+                </div>
+                
+                <div class="p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
+                    <div class="flex items-center gap-3 mb-2">
+                        <span class="text-2xl">📄</span>
+                        <h3 class="font-medium text-gray-800">Ctrl + Shift + V</h3>
+                    </div>
+                    <p class="text-sm text-gray-600">Wkleja tekst ze schowka</p>
+                </div>
+                
+                <div class="p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
+                    <div class="flex items-center gap-3 mb-2">
+                        <span class="text-2xl">🔍</span>
+                        <h3 class="font-medium text-gray-800">Ctrl + Shift + F</h3>
+                    </div>
+                    <p class="text-sm text-gray-600">Wyszukiwanie w terminalu</p>
+                </div>
+                
+                <div class="p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
+                    <div class="flex items-center gap-3 mb-2">
+                        <span class="text-2xl">📑</span>
+                        <h3 class="font-medium text-gray-800">Ctrl + Shift + T</h3>
+                    </div>
+                    <p class="text-sm text-gray-600">Otwiera nową kartę</p>
+                </div>
+                
+                <div class="p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
+                    <div class="flex items-center gap-3 mb-2">
+                        <span class="text-2xl">🔄</span>
+                        <h3 class="font-medium text-gray-800">Ctrl + C</h3>
+                    </div>
+                    <p class="text-sm text-gray-600">Przerywa wykonywanie komendy</p>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+komendy:
+Terminal Tuxedo :
+
+esc (command) esc esc -> tab, ale nie do końca
+k ⬆️
+j ⬇️
+l ➡️
+h ⬅️
+r zamiana
+R tryb zamieniania (coś jak insert)
+x usuwanie
+A koniec + pisanie
+a next pisanie
+i przejście do pisania
+P : wklejenie przed kursorem
+p : wklejenie po kursorze
+yy: kopiowanie całej linii
+y$: kopiowanie wszystkiego od kursora do konia
+y^: kopiowanie wszystkiego od początku do kursora
+yiw: kopiowanie 1 słowa
+dd: usuwanie całej linii
+d$: usuwanie wszystkiego z kursora do końca
