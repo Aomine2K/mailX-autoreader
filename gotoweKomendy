@@ -1,0 +1,44 @@
+ps -ef | grep BBL 
+Bulletin Board Liaison – podstawowy serwer Tuxedo uruchamiany jako pierwszy przy starcie domeny.
+
+echo help | tmadmin - wydruk aktualnie dostępnej listy poleceń 
+
+echo v | tmadmin - pełniejszy (verbose, czasem trochę inny) zakres wyświetlanych wyników poleceń 
+
+echo bbc | tmadmin - wyczyszczenie BB, BBL sprawdzi czy zatrzymane są serwery, które powinny być zatrzymane oraz czy uruchomione są serwery, które powinny pracować, można wykonywać profilaktycznie w wątpliwych sytuacjach, np. po przerwaniu zatrzymywania domeny. 
+
+echo bbs | tmadmin - statystyki BB 
+
+echo bbi | tmadmin - przegląd BB 
+
+echo "psr" |tmadmin 
+Wyświetlenie uruchomionych serwerów Tuxedo w domenie Tuxedo
+
+echo "psc" |tmadmin 
+Wyświetlenie rozgłaszanych przez serwery Tuxedo serwisów(usług) Tuxedo
+
+echo "pq" |tmadmin 
+Wyświetlenie stanu kolejek Tuxedo w domenie Tuxedo
+
+echo "pclt" |tmadmin 
+Wyświetlenie zalogowanych userów (polecenie przydatne w domenach TJO...)
+
+echo "pclt" |tmadmin 2>/dev/null| egrep -c 'E2|WER|E2R' 
+Policzenie tylko użytkowników zalogowanych w aplikacjach E2, WER, E2R
+
+echo "pclt" |tmadmin |grep -v -i busy |grep -c 'OU' 
+Zadaniem tego polecenia jest wypisać ile wystąpień było dla aplikacji OU, z wyłączeniem użytkowników, którzy są busy.
+
+Polecenia dm do sprawdzania połączeń domenowych
+(zrywanie lub nawiązywanie połączeń domenowych)
+
+echo help | dmadmin - wydruk aktualnie dostępnej listy poleceń dla dmadmin 
+
+pd -d [domena_lokalna] - wyświetlenie połączenia domeny lokalnej (tej której środowisko mamy aktualnie ustawione)
+co –d [domena_lokalna] [-R domena_zdalna] - wymuszenie połączenie domeny lokalnej z domenami zdalnymi (polecenie prawie nie używane, ponieważ połączenie z domeną zdalną wymuszane jest automatycznie poprzez wywoływanie usług przez aplikacje)
+dco –d domena_lokalna [-R domena_zdalna] - - rozłącza domenę lokalną z domenami zdalnymi.
+Przykłady
+echo "pd -d ODDAZB_ZIELONAG"|dmadmin
+echo "pd -d TJOAZB_SZCZECIN"|dmadmin
+echo "co -d ODDCOT_KOSZALIN -R COOCOT"|dmadmin
+echo "co -d ODDPZL_BIALYSTOK -R COOPZL"|dmadmin
