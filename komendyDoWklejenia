@@ -1,0 +1,241 @@
+<!-- Tuxedo Commands -->
+<tr class="command-row border-b border-gray-100" data-category="tuxedo">
+    <td class="py-3 px-4">
+        <div class="flex items-center gap-2">
+            <span class="inline-block bg-indigo-100 text-indigo-800 text-xs px-2 py-1 rounded">Tuxedo</span>
+            <span class="text-sm text-gray-700">Lista uruchomionych procesów BBL</span>
+        </div>
+    </td>
+    <td class="py-3 px-4">
+        <code class="mono text-sm bg-gray-100 px-3 py-2 rounded text-gray-800 block">ps -ef | grep BBL</code>
+    </td>
+    <td class="py-3 px-4 text-center">
+        <button onclick="copyCommand('ps -ef | grep BBL', this)" class="copy-btn bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded text-sm font-medium">📋 Kopiuj</button>
+    </td>
+</tr>
+
+<tr class="command-row border-b border-gray-100" data-category="tuxedo">
+    <td class="py-3 px-4">
+        <div class="flex items-center gap-2">
+            <span class="inline-block bg-indigo-100 text-indigo-800 text-xs px-2 py-1 rounded">Tuxedo</span>
+            <span class="text-sm text-gray-700">Pomoc tmadmin</span>
+        </div>
+    </td>
+    <td class="py-3 px-4">
+        <code class="mono text-sm bg-gray-100 px-3 py-2 rounded text-gray-800 block">echo help | tmadmin</code>
+    </td>
+    <td class="py-3 px-4 text-center">
+        <button onclick="copyCommand('echo help | tmadmin', this)" class="copy-btn bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded text-sm font-medium">📋 Kopiuj</button>
+    </td>
+</tr>
+
+<tr class="command-row border-b border-gray-100" data-category="tuxedo">
+    <td class="py-3 px-4">
+        <div class="flex items-center gap-2">
+            <span class="inline-block bg-indigo-100 text-indigo-800 text-xs px-2 py-1 rounded">Tuxedo</span>
+            <span class="text-sm text-gray-700">Verbose tmadmin</span>
+        </div>
+    </td>
+    <td class="py-3 px-4">
+        <code class="mono text-sm bg-gray-100 px-3 py-2 rounded text-gray-800 block">echo v | tmadmin</code>
+    </td>
+    <td class="py-3 px-4 text-center">
+        <button onclick="copyCommand('echo v | tmadmin', this)" class="copy-btn bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded text-sm font-medium">📋 Kopiuj</button>
+    </td>
+</tr>
+
+<tr class="command-row border-b border-gray-100" data-category="tuxedo">
+    <td class="py-3 px-4">
+        <div class="flex items-center gap-2">
+            <span class="inline-block bg-indigo-100 text-indigo-800 text-xs px-2 py-1 rounded">Tuxedo</span>
+            <span class="text-sm text-gray-700">Czyszczenie BB</span>
+        </div>
+    </td>
+    <td class="py-3 px-4">
+        <code class="mono text-sm bg-gray-100 px-3 py-2 rounded text-gray-800 block">echo bbc | tmadmin</code>
+    </td>
+    <td class="py-3 px-4 text-center">
+        <button onclick="copyCommand('echo bbc | tmadmin', this)" class="copy-btn bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded text-sm font-medium">📋 Kopiuj</button>
+    </td>
+</tr>
+
+<tr class="command-row border-b border-gray-100" data-category="tuxedo">
+    <td class="py-3 px-4">
+        <div class="flex items-center gap-2">
+            <span class="inline-block bg-indigo-100 text-indigo-800 text-xs px-2 py-1 rounded">Tuxedo</span>
+            <span class="text-sm text-gray-700">Statystyki BB</span>
+        </div>
+    </td>
+    <td class="py-3 px-4">
+        <code class="mono text-sm bg-gray-100 px-3 py-2 rounded text-gray-800 block">echo bbs | tmadmin</code>
+    </td>
+    <td class="py-3 px-4 text-center">
+        <button onclick="copyCommand('echo bbs | tmadmin', this)" class="copy-btn bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded text-sm font-medium">📋 Kopiuj</button>
+    </td>
+</tr>
+
+<tr class="command-row border-b border-gray-100" data-category="tuxedo">
+    <td class="py-3 px-4">
+        <div class="flex items-center gap-2">
+            <span class="inline-block bg-indigo-100 text-indigo-800 text-xs px-2 py-1 rounded">Tuxedo</span>
+            <span class="text-sm text-gray-700">Przegląd BB</span>
+        </div>
+    </td>
+    <td class="py-3 px-4">
+        <code class="mono text-sm bg-gray-100 px-3 py-2 rounded text-gray-800 block">echo bbi | tmadmin</code>
+    </td>
+    <td class="py-3 px-4 text-center">
+        <button onclick="copyCommand('echo bbi | tmadmin', this)" class="copy-btn bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded text-sm font-medium">📋 Kopiuj</button>
+    </td>
+</tr>
+
+<tr class="command-row border-b border-gray-100" data-category="tuxedo">
+    <td class="py-3 px-4">
+        <div class="flex items-center gap-2">
+            <span class="inline-block bg-indigo-100 text-indigo-800 text-xs px-2 py-1 rounded">Tuxedo</span>
+            <span class="text-sm text-gray-700">Uruchomione serwery Tuxedo</span>
+        </div>
+    </td>
+    <td class="py-3 px-4">
+        <code class="mono text-sm bg-gray-100 px-3 py-2 rounded text-gray-800 block">echo "psr" | tmadmin</code>
+    </td>
+    <td class="py-3 px-4 text-center">
+        <button onclick="copyCommand('echo \"psr\" | tmadmin', this)" class="copy-btn bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded text-sm font-medium">📋 Kopiuj</button>
+    </td>
+</tr>
+
+<tr class="command-row border-b border-gray-100" data-category="tuxedo">
+    <td class="py-3 px-4">
+        <div class="flex items-center gap-2">
+            <span class="inline-block bg-indigo-100 text-indigo-800 text-xs px-2 py-1 rounded">Tuxedo</span>
+            <span class="text-sm text-gray-700">Rozgłaszane serwisy Tuxedo</span>
+        </div>
+    </td>
+    <td class="py-3 px-4">
+        <code class="mono text-sm bg-gray-100 px-3 py-2 rounded text-gray-800 block">echo "psc" | tmadmin</code>
+    </td>
+    <td class="py-3 px-4 text-center">
+        <button onclick="copyCommand('echo \"psc\" | tmadmin', this)" class="copy-btn bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded text-sm font-medium">📋 Kopiuj</button>
+    </td>
+</tr>
+
+<tr class="command-row border-b border-gray-100" data-category="tuxedo">
+    <td class="py-3 px-4">
+        <div class="flex items-center gap-2">
+            <span class="inline-block bg-indigo-100 text-indigo-800 text-xs px-2 py-1 rounded">Tuxedo</span>
+            <span class="text-sm text-gray-700">Stan kolejek Tuxedo</span>
+        </div>
+    </td>
+    <td class="py-3 px-4">
+        <code class="mono text-sm bg-gray-100 px-3 py-2 rounded text-gray-800 block">echo "pq" | tmadmin</code>
+    </td>
+    <td class="py-3 px-4 text-center">
+        <button onclick="copyCommand('echo \"pq\" | tmadmin', this)" class="copy-btn bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded text-sm font-medium">📋 Kopiuj</button>
+    </td>
+</tr>
+
+<tr class="command-row border-b border-gray-100" data-category="tuxedo">
+    <td class="py-3 px-4">
+        <div class="flex items-center gap-2">
+            <span class="inline-block bg-indigo-100 text-indigo-800 text-xs px-2 py-1 rounded">Tuxedo</span>
+            <span class="text-sm text-gray-700">Zalogowani użytkownicy Tuxedo</span>
+        </div>
+    </td>
+    <td class="py-3 px-4">
+        <code class="mono text-sm bg-gray-100 px-3 py-2 rounded text-gray-800 block">echo "pclt" | tmadmin</code>
+    </td>
+    <td class="py-3 px-4 text-center">
+        <button onclick="copyCommand('echo \"pclt\" | tmadmin', this)" class="copy-btn bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded text-sm font-medium">📋 Kopiuj</button>
+    </td>
+</tr>
+
+<tr class="command-row border-b border-gray-100" data-category="tuxedo">
+    <td class="py-3 px-4">
+        <div class="flex items-center gap-2">
+            <span class="inline-block bg-indigo-100 text-indigo-800 text-xs px-2 py-1 rounded">Tuxedo</span>
+            <span class="text-sm text-gray-700">Liczba użytkowników w aplikacjach E2, WER, E2R</span>
+        </div>
+    </td>
+    <td class="py-3 px-4">
+        <code class="mono text-sm bg-gray-100 px-3 py-2 rounded text-gray-800 block">echo "pclt" | tmadmin 2>/dev/null | egrep -c 'E2|WER|E2R'</code>
+    </td>
+    <td class="py-3 px-4 text-center">
+        <button onclick="copyCommand('echo \"pclt\" | tmadmin 2>/dev/null | egrep -c \'E2|WER|E2R\'', this)" class="copy-btn bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded text-sm font-medium">📋 Kopiuj</button>
+    </td>
+</tr>
+
+<tr class="command-row border-b border-gray-100" data-category="tuxedo">
+    <td class="py-3 px-4">
+        <div class="flex items-center gap-2">
+            <span class="inline-block bg-indigo-100 text-indigo-800 text-xs px-2 py-1 rounded">Tuxedo</span>
+            <span class="text-sm text-gray-700">Liczba wystąpień OU</span>
+        </div>
+    </td>
+    <td class="py-3 px-4">
+        <code class="mono text-sm bg-gray-100 px-3 py-2 rounded text-gray-800 block">echo "pclt" | tmadmin | grep -v -i busy | grep -c 'OU'</code>
+    </td>
+    <td class="py-3 px-4 text-center">
+        <button onclick="copyCommand('echo \"pclt\" | tmadmin | grep -v -i busy | grep -c \'OU\'', this)" class="copy-btn bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded text-sm font-medium">📋 Kopiuj</button>
+    </td>
+</tr>
+
+<!-- Domain Commands -->
+<tr class="command-row border-b border-gray-100" data-category="domain">
+    <td class="py-3 px-4">
+        <div class="flex items-center gap-2">
+            <span class="inline-block bg-teal-100 text-teal-800 text-xs px-2 py-1 rounded">Domain</span>
+            <span class="text-sm text-gray-700">Pomoc dmadmin</span>
+        </div>
+    </td>
+    <td class="py-3 px-4">
+        <code class="mono text-sm bg-gray-100 px-3 py-2 rounded text-gray-800 block">echo help | dmadmin</code>
+    </td>
+    <td class="py-3 px-4 text-center">
+        <button onclick="copyCommand('echo help | dmadmin', this)" class="copy-btn bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded text-sm font-medium">📋 Kopiuj</button>
+    </td>
+</tr>
+
+<tr class="command-row border-b border-gray-100" data-category="domain">
+    <td class="py-3 px-4">
+        <div class="flex items-center gap-2">
+            <span class="inline-block bg-teal-100 text-teal-800 text-xs px-2 py-1 rounded">Domain</span>
+            <span class="text-sm text-gray-700">Wyświetl połączenie domeny lokalnej</span>
+        </div>
+    </td>
+    <td class="py-3 px-4">
+        <code class="mono text-sm bg-gray-100 px-3 py-2 rounded text-gray-800 block">pd -d [domena_lokalna]</code>
+    </td>
+    <td class="py-3 px-4 text-center">
+        <button onclick="copyCommand('pd -d [domena_lokalna]', this)" class="copy-btn bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded text-sm font-medium">📋 Kopiuj</button>
+    </td>
+</tr>
+
+<tr class="command-row border-b border-gray-100" data-category="domain">
+    <td class="py-3 px-4">
+        <div class="flex items-center gap-2">
+            <span class="inline-block bg-teal-100 text-teal-800 text-xs px-2 py-1 rounded">Domain</span>
+            <span class="text-sm text-gray-700">Wymuszenie połączenia domen lokalnych</span>
+        </div>
+    </td>
+    <td class="py-3 px-4">
+        <code class="mono text-sm bg-gray-100 px-3 py-2 rounded text-gray-800 block">co -d [domena_lokalna] [-R domena_zdalna]</code>
+    </td>
+    <td class="py-3 px-4 text-center">
+        <button onclick="copyCommand('co -d [domena_lokalna] [-R domena_zdalna]', this)" class="copy-btn bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded text-sm font-medium">📋 Kopiuj</button>
+    </td>
+</tr>
+
+<tr class="command-row border-b border-gray-100" data-category="domain">
+    <td class="py-3 px-4">
+        <div class="flex items-center gap-2">
+            <span class="inline-block bg-teal-100 text-teal-800 text-xs px-2 py-1 rounded">Domain</span>
+            <span class="text-sm text-gray-700">Rozłączenie domen lokalnych zdalnych</span>
+        </div>
+    </td>
+    <td class="py-3 px-4">
+        <code class="mono text-sm bg-gray-100 px-3 py-2 rounded text-gray-800 block">dco -d domena_lokalna [-R domena_zdalna]</code>
+    </td>
+    <td class="py-3 px-4 text-center">
+        <button onclick="copyCommand('dco -d domena_lokalna [-R domena_zdalna]', this)" class="copy-btn bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded text-sm font-medium">📋 Kopiuj</button>
+    </td>
+</tr>
