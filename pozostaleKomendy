@@ -1,0 +1,87 @@
+Polecenia do uruchamiania i zatrzymywania domen lub wybranych grup lub serwerów Tuxedo
+(!!! czynności administracyjne wykonywane poza godzinami pracy użytkowników lub wyłącznie w razie awarii i potrzeby ich zastosowania !!!)
+
+tmboot -y - jest standardowym narzędziem do uruchamiania aplikacji, grup serwerów, serwerów - jest niejawnie wywoływane poprzez komendę boot z wewnątrz narzędzia tmadmin. Polecenia tmboot można używać jedynie z konta na którym pracuje aplikacja ¬czyli konta klienta, który jest właścicielem konfiguracji. Identyfikacja klienta polega na sprawdzeniu UID i GID użytkownika, które znajdują się w ubbconfigu. W aplikacji wielomaszynowej (model MP) polecenia tmboot można używać na maszynie master oraz na maszynie backup - z opcją -b.
+
+tmshutdown -y - służy do zatrzymania całej aplikacji, pojedynczych serwerów, grup serwerów (analogiczne do polecenia tmboot)
+
+-n – sprawdzanie poprawności, tylko udaje uruchamianie/zatrzymywanie
+-y – nie pyta o potwierdzenie gdy nie ma innych parametrów polecenia
+-A – uruchamia/zatrzymuje tylko BBL
+-g grupa – uruchamia/zatrzymuje wszystkie serwery w grupie
+-s nazwa – uruchamia/zatrzymuje wszystkie serwery o podanej nazwie
+-S - uruchamia/zatrzymuje wszystkie serwery w sekcji SERVERS
+-i ID – uruchamia/zatrzymuje tylko serwer o podanym ID
+-w sek – podczas zatrzymywania czeka sek sekund, jeśli serwer w tym czasie się nie zatrzyma wysyła sygnał TERM i KILL
+-k TERM|KILL – wysyła do zatrzymywanych serwerów sygnał TERM lub KILL
+-c – zatrzymuje BBL nawet jeśli klienci dalej działają
+Przykłady:
+"tmboot -i 10500 -g GR_WO" , można wyłączyć całą grupę procesów. tmshutdown -y - służy do zatrzymania całej aplikacji, pojedynczych serwerów, grup serwerów (analogiczne do polecenia tmboot)
+tmshutdown -yw9 - oczekiwanie max. 9sek na zatrzymanie każdego serwera Tuxedo, następnie "twarde" (wymuszenie zamknięcia opornego serwera Tuxedo w domenie)
+tmshutdown -i[ID serwera Tuxedo] - wyłączenie pojedynczego serwera Tuxedo w domenie (np. w przypadku jego zawieszenia)
+tmboot -i[ID serwera Tuxedo] - włączenie pojedynczego serwera Tuxedo w domenie
+tmshutdown -i2020 lub tmshutdown -i2020 -w2
+
+Polecenia startu/stopu stosuję się np. gdy jest duże obciążenie (mail z busy domain)
+Procedura, sprawdzić domenę (plik logów), w przypadku gdy działa poprawnie, do uruchomić procesy XZ_ROUTER, aby domena mogła obsłużyć więcej operacji
+Należy pamiętać, że maksymalna ilość procesów dla domeny jest w pliku ubb.config, nie powinno być więcej, bądź mniej procesów niż zapisane jest w tej konfiguracji
+Należy też pamiętać, że po uruchomieniu i wykryciu spadków obciążenia powinno się zwolnić zwolnić zasoby czyli wyłączyć do uruchomione XZ_ROUTERY tak aby domena pracowała prawidłowo
+
+Polecenia przykładowe (skrypty) dtmso uruchamiania i zatrzymywania domen za pośrednictwem RBAC
+(Procedura U0020). Polecenia uruchamiamy na użytkowniku "cwipw" (!!! czynności administracyjne wykonywane poza godzinami pracy użytkowników lub wyłącznie w razie awarii i potrzeby ich zastosowania !!!)
+
+tuxss.sh - wylacz/wlacz ALL/pojedyncza domene; przelaczniki jak dla poleceń tm/dm 
+
+/appksi/bin/tuxstartstop.sh wylacz TJOPLAT - wyłącza domenę TJOPLAT 
+
+/appksi/bin/tuxstartstop.sh wylacz ODDSOI TJOSOI -yw2 - wyłącza podane domeny z wymuszeniem zamykania serwerów po 2 sek. 
+
+/appksi/bin/tuxstartstop.sh kill ODDSOI TJOSOI - po wyłączeniu domeny (tylko i wyłącznie kiedy domena jest już wyłączona !!!) czyszczenie zasobów IPC 
+
+/appksi/bin/tuxstartstop.sh wlacz ODDSOI TJOSOI - włącza podane domeny 
+
+/appksi/bin/tuxstartstop.sh wlacz ALL - włącza wszystkie domeny na serwerze 
+
+/appksi/bin/tuxstartstop.sh wylacz ODDSOI -g GR_FWX -g GR_XKAL - wyłączenie wybranych grup serwerów Tuxedo w podanej domenie 
+
+Procedury i skrypty do wykonywania procedur A*:
+Procedury i skrypty do wykonywania procedur U*:
+Pozostałe procedury:
+Procedury wykonywania zapytań na bazie danych ifx
+Skrypt do zmiany usera na dbuser
+dbaksh.sh 
+Automatycznie przypisują wszystkie potrzebne ustawienia do bazy ifx01.
+
+Skrypt zmieniający typ bazy
+. /appksi/ksi/dbadmin/ifx02seton  przypisuję wszystkie potrzebne ustawienia dla bazy ifx02
+. /appksi/ksi/dbadmin/ifx01seton  przypisuję wszystkie potrzebne ustawienia dla bazy ifx01
+
+Shelowe narzędzie do wykonywania różnych akcji na silniku bazodanowym
+dbaccess 
+Umożliwia na wykonanie różnych akcji np. zapytania, wybór baz(jest ich kilka), drop table, drop databases, delete itp.
+
+Należy uważać co się klika :)
+Podstawowe czynności przy wykonywaniu zapytań
+Ustawienie poziomu izolacji dla zapytań SELECT to: SET ISOLATION TO DIRTY READ;
+Przy wyrzuceniu danych z bazy do pliku należy użyć polecenie UNLOAD TO 'ścieżka/do/pliku.csv' -> stosuje się je przed poleceniem SELECT
+Separator dla danych DELIMITER ',' -> domyślnie *gdy nie ma tego polecenia, dane rozdzielone są tabulatorem, w tym przykładzie separatorem jest przecinek.
+
+Kopiowanie plików tekstowych dla serwera FTP stosować tryb tekstowy, w przypadku innych plików np. archiwum stosować tryb binarny.
+
+Przykładowe zapytanie wyłuskujące dane z okresu dla danego usera oraz dla danej aplikacji:
+SET ISOLATION TO DIRTY READ;
+UNLOAD TO 'ścieżka/do/pliku.csv'
+SELECT * FROM t_audit_log
+WHERE log_start > 'RRRR-MM-DD HH:MM:SS'
+and log_start < 'RRRR-MM-DD HH:MM:SS'
+and log_username = 'id_Nazwisko1LiterkaImienia'
+and log_appcode = 'kod_aplikacji np. FW, EPWD, WO' 
+Do wyciągnięcia log_username stosuję się program, który ma listę użytkowników, stworzyć własne zapytanie, które sprawdzi czy taki użytkownik istnieje lub wyciągnąć listę wszystkich użytkowników tabeli log_username i samemu ją przeszukać ewentualnie z polecenia echo "pclt" |tmadmin w tjo o ile dany użytkownik w danym momencie pracuje(jest zalogowany w aplikacji), powinien się pokazać.
+
+Przykładowe zapytanie wyświetlające pełną nazwę użytkownika w systemie dla nazwiska
+SET ISOLATION TO DIRTY READ;
+SELECT FIRST 1 log_username FROM t_audit_log
+WHERE log_username LIKE '%NazwiskoSzukanejOsoby%' 
+
+fdhdhf
+ 
