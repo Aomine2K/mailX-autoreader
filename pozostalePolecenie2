@@ -1,0 +1,114 @@
+<section class="bg-gray-50 p-6 rounded-lg shadow-md mt-6">
+  <h2 class="text-2xl font-bold mb-4">Polecenia administracyjne Tuxedo</h2>
+
+  <!-- OSTRZEŻENIE -->
+  <div class="bg-red-50 border-l-4 border-red-500 p-4 mb-6">
+    <p class="font-semibold">
+      ⚠️ Czynności administracyjne należy wykonywać wyłącznie:
+    </p>
+    <ul class="list-disc list-inside ml-4">
+      <li>poza godzinami pracy użytkowników</li>
+      <li>lub wyłącznie w razie awarii i konieczności ich zastosowania</li>
+    </ul>
+  </div>
+
+  <!-- PODSTAWOWE POLECENIA -->
+  <div class="mb-6">
+    <h3 class="text-xl font-semibold mb-2">Podstawowe polecenia Tuxedo</h3>
+    <p><code>tmboot -y</code> – standardowe narzędzie do uruchamiania aplikacji, grup serwerów lub pojedynczych serwerów.</p>
+    <p><code>tmshutdown -y</code> – służy do zatrzymania całej aplikacji, pojedynczych serwerów lub grup serwerów.</p>
+    <p class="mt-2">Polecenia mogą być uruchamiane wyłącznie z konta właściciela konfiguracji (UID/GID zgodne z ubbconfig).</p>
+  </div>
+
+  <!-- PARAMETRY -->
+  <div class="mb-6">
+    <h3 class="text-xl font-semibold mb-2">Parametry poleceń</h3>
+    <ul class="list-disc list-inside ml-4">
+      <li><code>-n</code> – tryb testowy, bez faktycznego uruchamiania</li>
+      <li><code>-y</code> – nie pyta o potwierdzenie</li>
+      <li><code>-A</code> – uruchamia/zatrzymuje tylko BBL</li>
+      <li><code>-g grupa</code> – dotyczy wszystkich serwerów w grupie</li>
+      <li><code>-s nazwa</code> – dotyczy wszystkich serwerów o podanej nazwie</li>
+      <li><code>-S</code> – dotyczy wszystkich serwerów z sekcji SERVERS</li>
+      <li><code>-i ID</code> – wskazuje konkretny serwer po ID</li>
+      <li><code>-w sek</code> – czeka określoną liczbę sekund przed wymuszeniem zamknięcia</li>
+      <li><code>-k TERM|KILL</code> – wysyła określony sygnał do procesu</li>
+      <li><code>-c</code> – zatrzymuje BBL mimo aktywnych klientów</li>
+    </ul>
+  </div>
+
+  <!-- PRZYKŁADY -->
+  <div class="mb-6">
+    <h3 class="text-xl font-semibold mb-2">Przykłady użycia</h3>
+    <pre class="bg-gray-100 p-2 rounded">
+tmboot -i 10500 -g GR_WO
+tmshutdown -yw9
+tmshutdown -i2020 -w2
+tmboot -i2020
+    </pre>
+  </div>
+
+  <!-- ZASTOSOWANIE -->
+  <div class="mb-6">
+    <h3 class="text-xl font-semibold mb-2">Zastosowanie poleceń</h3>
+    <p>Używane m.in. w przypadku dużego obciążenia (np. komunikat „busy domain”).</p>
+    <ul class="list-disc list-inside ml-4">
+      <li>Przed restartem sprawdzić logi domeny.</li>
+      <li>W razie potrzeby uruchomić dodatkowe procesy <code>XZ_ROUTER</code>.</li>
+      <li>Maksymalna liczba procesów określona jest w <code>ubb.config</code>.</li>
+      <li>Po spadku obciążenia należy wyłączyć nadmiarowe <code>XZ_ROUTERY</code> w celu zwolnienia zasobów.</li>
+    </ul>
+  </div>
+
+  <!-- SKRYPTY ADMINISTRACYJNE -->
+  <div class="mb-6">
+    <h3 class="text-xl font-semibold mb-2">Skrypty administracyjne (RBAC)</h3>
+    <p>Używane przez użytkownika <code>cwipw</code> – zgodnie z procedurą U0020.</p>
+    <pre class="bg-gray-100 p-2 rounded">
+tuxss.sh wylacz|wlacz ALL|domena
+/appksi/bin/tuxstartstop.sh wylacz TJOPLAT
+/appksi/bin/tuxstartstop.sh wylacz ODDSOI TJOSOI -yw2
+/appksi/bin/tuxstartstop.sh kill ODDSOI TJOSOI
+/appksi/bin/tuxstartstop.sh wlacz ALL
+/appksi/bin/tuxstartstop.sh wylacz ODDSOI -g GR_FWX -g GR_XKAL
+    </pre>
+  </div>
+
+  <!-- PROCEDURY / BAZY -->
+  <div class="mb-6">
+    <h3 class="text-xl font-semibold mb-2">Procedury bazodanowe Informix</h3>
+    <p>Skrypty do zmiany użytkownika i konfiguracji bazy:</p>
+    <pre class="bg-gray-100 p-2 rounded">
+dbaksh.sh               # zmiana usera na dbuser
+. /appksi/ksi/dbadmin/ifx01seton
+. /appksi/ksi/dbadmin/ifx02seton
+    </pre>
+    <p>Narzędzie <code>dbaccess</code> – shellowe narzędzie do wykonywania zapytań SQL, operacji DROP, DELETE itp.</p>
+  </div>
+
+  <!-- ZAPYTANIA SQL -->
+  <div class="mb-6">
+    <h3 class="text-xl font-semibold mb-2">Przykładowe zapytania SQL</h3>
+    <pre class="bg-gray-100 p-2 rounded">
+SET ISOLATION TO DIRTY READ;
+UNLOAD TO '/ścieżka/pliku.csv' DELIMITER ','
+SELECT * FROM t_audit_log
+WHERE log_start BETWEEN 'RRRR-MM-DD HH:MM:SS' AND 'RRRR-MM-DD HH:MM:SS'
+AND log_username = 'id_Nazwisko1LiterkaImienia'
+AND log_appcode = 'FW';
+    </pre>
+    <p>Wyszukiwanie użytkownika po nazwisku:</p>
+    <pre class="bg-gray-100 p-2 rounded">
+SET ISOLATION TO DIRTY READ;
+SELECT FIRST 1 log_username FROM t_audit_log
+WHERE log_username LIKE '%NazwiskoSzukanejOsoby%';
+    </pre>
+  </div>
+
+  <div class="bg-yellow-50 border-l-4 border-yellow-500 p-3">
+    <p>💡 <strong>Uwaga:</strong>  
+    Przy kopiowaniu plików tekstowych przez FTP używaj trybu tekstowego.  
+    Dla plików binarnych (np. archiwa) – używaj trybu binarnego.</p>
+  </div>
+
+</section>
