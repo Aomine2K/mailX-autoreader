@@ -1,0 +1,266 @@
+
+SKRYPT DO SZYBKIEGO OGARNIĘCIA SYTUACJI
+olsztyn:/appksi/ksi/cwipw/AI/bin/sprtux
+
+
+--> uprawnia użytkownika do odczytu pliku, bez ingerencji w zapisane uprawnienia
+setacl -m user:nazwa_uzytkownika:r-- plik
+
+
+
+---> ŚRODOWISKO
+. ./odd/cfg/odd.sh
+. ./tjo/cfg/tjo.sh
+
+--->stawianie serwerów (na ustawionej domenie i środowisku)
+tmboot -i idserwera
+
+
+
+---> RESTART SŁOWNIKÓW
+pojedynczo:
+. ./odd/cfg/odd.sh; tmshutdown -i 2200 -yw1; tmboot -i 2200
+. ./odd/cfg/odd.sh; tmshutdown -i 2201 -yw3; tmboot -i 2201
+tmshutdown -i 2202 -yw1; tmboot -i 2202
+
+lub grupą:
+. ./odd/cfg/odd.sh;tmshutdown -s KSI_SLOWNIKI_INF;tmboot -s KSI_SLOWNIKI_INF
+
+
+
+---> restart XR_router kolejno w pętli (np do zwolnienia pamięci)
+
+. ./odd/cfg/odd.sh;for i in `echo psr|tmadmin|grep XZ_R|awk '{print $4}'`;do tmshutdown -i $i -yw1;tmboot -i $i;done; 
+
+
+test podnoszenia XR Routerów
+for i in [2020..2030];do tmboot -i $i;done;
+
+
+---> j.w. ale FWEX_INF / FW_INF / FWBATCH-INF
+. ./odd/cfg/odd.sh;for i in `echo psr|tmadmin|grep FWEX_INF|awk '{print $4}'`;do tmshutdown -i $i -yw1;tmboot -i $i;done;
+. ./odd/cfg/odd.sh;for i in `echo psr|tmadmin|grep FW_INF|awk '{print $4}'`;do tmshutdown -i $i -yw1;tmboot -i $i;done; 
+. ./odd/cfg/odd.sh;for i in `echo psr|tmadmin|grep FWBATCH|awk '{print $4}'`;do tmshutdown -i $i -yw1;tmboot -i $i;done; 
+. ./odd/cfg/odd.sh;for i in `echo psr|tmadmin|grep sprawa.exe|awk '{print $4}'`;do tmshutdown -i $i -yw1;tmboot -i $i;done; 
+
+
+. ./odd/cfg/odd.sh;for i in `echo psr|tmadmin|grep ksi_forward|awk '{print $4}'`;do tmshutdown -i $i -yw1;tmboot -i $i;done; 
+
+---> zużycie pamięci na domenach, sortowane po zajętości 
+
+top -n 3500 -f top.tmp; awk '{s=length($7)}; {if (substr($7,s,1)=="M") print}' <top.tmp |grep tux |sort -rk 7,7; rm top.tmp 
+
+---> instalacja WSL
+osab01.wroclaw1.zus /appksi/ksi/cwipw/AI/bin/AT_WSL/start
+
+
+zwolnienie zasobów
+
+ZASOBY=`ipcs |grep tuxplat|awk '{print "-"$1" "$2}'`
+ipcrm $ZASOBY
+
+---> kasowanie DEPów starszych niż 30 dni
+for i in `cat ~/cfg/osab_all | awk '{ print $3 }'`; do ssh $i "find $HOME/dep -mtime +30 -name \"*.dep.gz\" -exec rm {} \;" ; done
+
+---> skrypt do kontroli procedur
+wroclaw1:/appksi/ksi/cwipw/AI/bin->sprtux
+sprtux jest na ścieżce
+
+---> ustawienie serwera do restartu 
+edycja pliku /AI/out/serv_all na osab01.wroclaw1.zus między godz 14:51 a 15:09
+
+skrypt do ustawienia AT:
+
+wroclaw1:/appksi/ksi/cwipw/AI/bin/AT/ats
+
+
+---> ilość userów
+
+echo pclt | tmadmin | egrep -c "E2|E2R|WER"
+
+
+
+---> restart domeny
+
+tuxss.sh wylacz TJOUBEZ ODDUBEZ -yw1
+tuxss.sh kill TJOUBEZ ODDUBEZ
+tuxss.sh wlacz TJOUBEZ ODDUBEZ
+
+
+tuxss.sh wylacz TJOSOI ODDSOI -yw1
+tuxss.sh kill TJOSOI ODDSOI
+tuxss.sh wlacz TJOSOI ODDSOI
+
+
+*kill opcjonalnie, między wylacz a wlacz
+
+
+tuxss.sh wylacz ODDDKW -w1
+tuxss.sh kill ODDDKW
+tuxss.sh wlacz ODDDKW
+
+tuxss.sh wylacz ODDSOI -w1
+tuxss.sh kill ODDSOI
+tuxss.sh wlacz ODDSOI
+
+tuxss.sh wylacz TJOEME ODDEME -w1
+tuxss.sh kill TJOEME ODDEME
+tuxss.sh wlacz TJOEME ODDEME
+
+
+tuxss.sh wylacz TJOAZB ODDAZB -w1
+tuxss.sh kill TJOAZB ODDAZB
+tuxss.sh wlacz TJOAZB ODDAZB
+
+
+tuxss.sh wylacz TJOSOI ODDSOI -w1
+tuxss.sh kill TJOSOI ODDSOI
+tuxss.sh wlacz TJOSOI ODDSOI
+
+
+tuxss.sh wylacz ODDEME -w1
+tuxss.sh kill ODDEME
+tuxss.sh wlacz ODDEME
+
+
+tuxss.sh wylacz TJOPLAT ODDPLAT -w1
+tuxss.sh kill TJOPLAT ODDPLAT
+tuxss.sh wlacz TJOPLAT ODDPLAT
+
+tuxss.sh wylacz ODDPLAT -w1
+tuxss.sh kill ODDPLAT
+tuxss.sh wlacz ODDPLAT
+
+tuxss.sh wylacz ODDOLP -w1
+tuxss.sh kill ODDOLP
+tuxss.sh wlacz ODDOLP
+
+
+
+tuxss.sh wylacz ODDWEW -w1
+tuxss.sh kill ODDWEW
+tuxss.sh wlacz ODDWEW
+
+tuxss.sh wylacz ODDZAS -w1
+tuxss.sh kill ODDZAS
+tuxss.sh wlacz ODDZAS
+
+
+tuxss.sh wylacz TJOUBEZ ODDUBEZ -w1
+tuxss.sh kill TJOUBEZ ODDUBEZ
+tuxss.sh wlacz TJOUBEZ ODDUBEZ
+
+
+tuxss.sh wylacz TJOSOI ODDSOI -w1
+tuxss.sh kill TJOSOI ODDSOI
+tuxss.sh wlacz TJOSOI ODDSOI
+
+
+tuxss.sh wylacz ODDSOI -w1
+tuxss.sh kill ODDSOI
+tuxss.sh wlacz ODDSOI
+
+tuxss.sh wylacz ODDOLP -w1
+tuxss.sh kill ODDOLP
+tuxss.sh wlacz ODDOLP
+
+
+tuxss.sh wylacz TJOCOT ODDCOT -w1
+tuxss.sh kill TJOCOT ODDCOT
+tuxss.sh wlacz TJOCOT ODDCOT
+
+
+
+
+
+
+
+restart Informixa
+
+/appksi/bin/tuxstartstop.sh wylacz ODDSOI -g GR_FWX
+/appksi/bin/tuxstartstop.sh wlacz ODDSOI -g GR_FWX
+
+/appksi/bin/tuxstartstop.sh wylacz ODDSOI -g GR_XKAL 
+/appksi/bin/tuxstartstop.sh wlacz ODDSOI -g GR_XKAL 
+
+/appksi/bin/tuxstartstop.sh wylacz ODDWEW -g GR_FWX
+/appksi/bin/tuxstartstop.sh wlacz ODDWEW -g GR_FWX
+
+/appksi/bin/tuxstartstop.sh wylacz ODDWEW -g GR_XKAL 
+/appksi/bin/tuxstartstop.sh wlacz ODDWEW -g GR_XKAL 
+
+/appksi/bin/tuxstartstop.sh wylacz ODDAZB -g GR_FWX 
+/appksi/bin/tuxstartstop.sh wlacz ODDAZB -g GR_FWX 
+
+wyłącz dwa serwery :
+FW_BATCHINF i KSI_SLOWNIKI, najpiewr BATCH po tym słowniki
+uruchamianie: też najpierw BATCH 
+
+
+
+---------------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------------
+
+
+openshift
+
+
+
+LOGI Z PODÓW
+
+for i in `oc get pods|awk ' { print $1 } '|grep epwd-prof-cs-profile-eessi`;do `oc logs --since=30m pod/$i>epprof.$i` ;done 
+tar czvf epprof.tar.gz epprof
+
+for i in `oc get pods|awk ' { print $1 } '|grep ake-pr-aprobata-sed`;do `oc logs --since=90m pod/$i>ake-pr-aprobata-sed.$i` ;done 
+
+
+for i in `oc get pods|awk ' { print $1 } '|grep ksi-ake`;do `oc logs --since=90m pod/$i>ksi-ake.$i` ;done 
+
+
+
+for i in `oc get cm --all-namespaces --output yaml|grep rabbit`; do echo $i; done
+
+
+
+ake-pr-dok-us
+ake-pr-aprobata-sed
+
+
+
+oc extract cm/nazwa --to=.
+oc create cm nazwa --from-file=. 
+
+(kropka to wskazanie katalogu)
+
+
+
+BACKUP - będąc w odpowiednim projekcie
+ for i in `oc get cm|grep -v NAME|awk ' { print $1 } '`;do $(oc get cm/$i -o yaml> cm_${i}.yaml);done
+ for i in `oc get svc|grep -v NAME|awk ' { print $1 } '`;do $(oc get svc/$i -o yaml> svc_${i}.yaml);done
+ for i in `oc get route|grep -v NAME|awk ' { print $1 } '`;do $(oc get route/$i -o yaml> route_${i}.yaml);done
+ for i in `oc get secret|grep -v NAME|awk ' { print $1 } '`;do $(oc get secret/$i -o yaml> secret_${i}.yaml);done
+ for i in `oc get dc|grep -v NAME|awk ' { print $1 } '`;do $(oc get dc/$i -o yaml> dc_${i}.yaml);done 
+ 
+ 
+kasowanie EVICTED
+for i in `oc get pods|grep Evicted|awk ' { print $1 } '`;do `echo oc delete pod $i` ;done 
+ 
+ 
+/home/piotr.wrobel/OCF4/sh/get_operators_statuses 
+get_operators_statuses.sh 
+
+rollouty do czyszczenia redisa w PMZ-RAM
+#pmz-parametry-prod
+oc rollout latest dc/pmz-parametry -n pmz-parametry-prod
+oc rollout latest dc/pmz-parametrypue -n pmz-parametry-prod
+#pmz-wnioski-sw-prod
+oc rollout latest dc/pmz-wnioski-local-sw -n pmz-wnioski-sw-prod
+oc rollout latest dc/pmz-wnioski-sw -n pmz-wnioski-sw-prod
+
+
+
+sprawdzanie haproxy
+curl -I "https://www.zus.pl" -x 10.241.2.119:8000
+HTTP/1.1 200 Connection established
