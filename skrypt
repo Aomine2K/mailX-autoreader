@@ -1,0 +1,61 @@
+#!/bin/ksh
+## CWI_PW ##
+KAT_DOM=/appksi/ksi/cwipw
+PLIK_OSAB=$HOME/cfg/osab_all_kody
+LISTA_OSAB=`cat $PLIK_OSAB|awk '{print $3}'`
+DATA_LOGU=`date "+%Y"-"%m"-"%d"`
+LOG="Proc_U0008_test_${DATA_LOGU}.log"
+POLECENIE79=" /appksi/ksi/procU0079/bin/tuxsprdom.sh"
+POLECENIE78=" /appksi/ksi/procU0078/bin/tuxsprser.sh"
+POLECENIE81=" /appksi/ksi/procU0081/bin/tuxsprkol.sh -h"
+FILTR79_1='egrep "DOMENA|OK|NOTOK"'
+FILTR79_2='egrep -v "zam|KONTROLA|Domeny|Domena|Uruchom"'
+FILTR78="egrep Wszystkie"
+########################
+
+
+TUXUSER="tuxaut tuxks tuxazb tuxkor tuxwew tuxrkw tuxplat tuxsoi tuxdok tuxzas tuxzts tuxdkw tuxkwar"
+# utxt tuxsoi tuxdok tuxzas tuxzts tuxdkw tuxkwardkw tuxdok tuxeme tuxkwar tuxolp tuxplat tuxpzl tux#
+
+if [ $# -lt 2 ]
+then
+  LISTA_OSAB1=$LISTA_OSAB
+  TUXUSER1=$TUXUSER
+else
+LISTA_OSAB1=$1
+TUXUSER1=$2
+fi
+
+(for SERWER in $LISTA_OSAB1
+do
+                echo "=================================================================================="
+                echo "Lacze z $SERWER"|tee -a SPR_${DATA_LOGU}.log
+                echo "=================================================================================="
+
+
+for USER1 in $TUXUSER1
+        do
+
+                        echo "================================== ${USER1} ========================================"
+
+                        AUTORYZACJA="/usr/bin/privrun -u ${USER1} /bin/ksh -c "
+                        PROFIL="cd /appksi/ksi/${USER1} && export LOGNAME=${USER1} && . ./.profile && export PS1 &&"
+                        SRODOWISKO_ODD=". /appksi/ksi/${USER1}/odd/cfg/odd.sh"
+                        SRODOWISKO_TJO=". /appksi/ksi/${USER1}/tjo/cfg/tjo.sh"
+
+
+                        (ssh $SERWER " $AUTORYZACJA \" $PROFIL $SRODOWISKO_ODD ; $POLECENIE79 \"")|$FILTR79_1|$FILTR79_2|egrep -v "zam|Uruchom"|awk ' { print $1,$2,$3 }'
+                        (ssh $SERWER " $AUTORYZACJA \" $PROFIL $SRODOWISKO_ODD ; $POLECENIE78 \"")|$FILTR78
+                        (ssh $SERWER " $AUTORYZACJA \" $PROFIL $SRODOWISKO_ODD ; $POLECENIE81 \"")|egrep "^..:|^CZAS|^Brak"
+
+            #echo $KOLEJKI|awk ' { FS=")" } { print $2 } '|grep CZAS|awk ' { for (i=9;i<=20; i++) print $i "|" } ' |awk ' { FS="\n"; RS="" } { print  } '
+                        echo "__________________________________________________________________________________"
+                        echo ""
+
+                        (ssh $SERWER " $AUTORYZACJA \" $PROFIL $SRODOWISKO_TJO ; $POLECENIE79 \"")|$FILTR79_1|$FILTR79_2|awk ' { print $1,$2,$3 }'
+                        (ssh $SERWER " $AUTORYZACJA \" $PROFIL $SRODOWISKO_TJO ; $POLECENIE78 \"")|$FILTR78
+
+
+
+        done
+done)|tee -a SPR_${DATA_LOGU}.log
