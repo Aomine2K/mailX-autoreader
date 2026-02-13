@@ -1,0 +1,49 @@
+# --- Konfiguracja ---
+$ApiServer = "https://<API_SERVER>:6443"
+$Token = "<TWÓJ_TOKEN>"
+$OutputFolder = "C:\openshift_export"
+New-Item -ItemType Directory -Force -Path $OutputFolder
+
+# --- Projekty ---
+$ProjectsUrl = "$ApiServer/apis/project.openshift.io/v1/projects"
+$Projects = Invoke-RestMethod -Uri $ProjectsUrl -Headers @{Authorization = "Bearer $Token"} -Method Get
+$Projects | Select-Object -ExpandProperty items |
+    Select-Object @{Name="Projekt";Expression={$_.metadata.name}},
+                  @{Name="DataUtworzenia";Expression={$_.metadata.creationTimestamp}} |
+    Export-Csv -Path "$OutputFolder\projekty.csv" -NoTypeInformation -Encoding UTF8
+
+# --- RoleBindings dla każdego projektu ---
+$RoleBindingsList = @()
+foreach ($proj in $Projects.items) {
+    $RBUrl = "$ApiServer/apis/rbac.authorization.k8s.io/v1/namespaces/$($proj.metadata.name)/rolebindings"
+    $RBs = Invoke-RestMethod -Uri $RBUrl -Headers @{Authorization = "Bearer $Token"} -Method Get
+    foreach ($rb in $RBs.items) {
+        foreach ($subj in $rb.subjects) {
+            $RoleBindingsList += [PSCustomObject]@{
+                Projekt = $rb.metadata.namespace
+                Rola = $rb.roleRef.name
+                TypPodmiotu = $subj.kind
+                Podmiot = $subj.name
+            }
+        }
+    }
+}
+$RoleBindingsList | Export-Csv -Path "$OutputFolder\rolebindings.csv" -NoTypeInformation -Encoding UTF8
+
+# --- ClusterRoleBindings ---
+$CRBUrl = "$ApiServer/apis/rbac.authorization.k8s.io/v1/clusterrolebindings"
+$CRBs = Invoke-RestMethod -Uri $CRBUrl -Headers @{Authorization = "Bearer $Token"} -Method Get
+$CRBList = @()
+foreach ($crb in $CRBs.items) {
+    foreach ($subj in $crb.subjects) {
+        $CRBList += [PSCustomObject]@{
+            Binding = $crb.metadata.name
+            Rola = $crb.roleRef.name
+            TypPodmiotu = $subj.kind
+            Podmiot = $subj.name
+        }
+    }
+}
+$CRBList | Export-Csv -Path "$OutputFolder\clusterrolebindings.csv" -NoTypeInformation -Encoding UTF8
+
+Write-Host "Eksport zakończony. Pliki CSV w: $OutputFolder"
