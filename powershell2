@@ -1,0 +1,4 @@
+echo "Projekt,Binding,Rola,Users,Groups" > rolebindings_ready.csv && \
+for proj in $(oc get projects -o jsonpath='{.items[*].metadata.name}'); do \
+  oc get rolebindings -n $proj -o json | jq -r '.items[] | [$proj, .metadata.name, .roleRef.name, ([.subjects[] | select(.kind=="User") | .name] | join(";")), ([.subjects[] | select(.kind=="Group") | .name] | join(";"))] | @csv' --arg proj "$proj" >> rolebindings_ready.csv; \
+done
