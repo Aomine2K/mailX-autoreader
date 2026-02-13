@@ -1,0 +1,3 @@
+for proj in $(oc get projects -o jsonpath='{.items[*].metadata.name}'); do
+  oc get rolebindings -n $proj -o jsonpath='{range .items[*]}{.metadata.name},{.roleRef.name},{range .subjects[*]}{.kind}:{.name}{";"}{end}{"\n"}{end}' >> wszystkie_rolebindings.csv
+done
