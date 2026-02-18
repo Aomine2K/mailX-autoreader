@@ -1,0 +1,3 @@
+echo "Name,FullName" > users.csv && \
+oc get users -o json | \
+jq -r '.items[] | [.metadata.name, (.fullName // "")] | @csv' >> users.csv
