@@ -1,0 +1,43 @@
+echo "loginAD;Nazwa Aplikacji;Login Konta w Aplikacji;Nazwa Uprawnienia;Login Konta przypisany do uprawnienia;Szczegółowy opis uprawnień" > monitor_import.csv && \
+(
+  # MONITOR RoleBindings
+  oc get rolebinding -A -o json | jq -r '
+    .items[]
+    | select(.roleRef.name | test("^system:") | not)
+    | . as $rb
+    | $rb.subjects[]?
+    | select(.kind=="User")
+    | {login: .name, section: "MONITOR", line: ($rb.metadata.namespace + "\n-" + $rb.roleRef.name)}
+  '
+  # CLUSTER ClusterRoleBindings
+  oc get clusterrolebinding -o json | jq -r '
+    .items[]
+    | select(.roleRef.name | test("^system:") | not)
+    | . as $crb
+    | $crb.subjects[]?
+    | select(.kind=="User")
+    | {login: .name, section: "CLUSTER", line: ("cluster\n-" + $crb.roleRef.name)}
+  '
+) | jq -s '
+  group_by(.login)
+  | map(
+      {
+        login: .[0].login,
+        monitor_lines: (map(select(.section=="MONITOR") | .line) | unique),
+        cluster_lines: (map(select(.section=="CLUSTER") | .line) | unique)
+      }
+      | [
+          .login,
+          "MONITOR",
+          .login,
+          "UPRAWNIENIE",              # tu możesz podać domyślną nazwę roli jeśli trzeba
+          .login,
+          (
+            (if (.monitor_lines | length) > 0 then ["MONITOR"] + .monitor_lines + [""] else [] end)
+            + (if (.cluster_lines | length) > 0 then ["CLUSTER"] + .cluster_lines else [] end)
+          )
+          | join("\n")
+        ]
+  )
+  | @csv
+' | sed 's/^"//;s/"$//;s/","/;/g' >> monitor_import.csv
