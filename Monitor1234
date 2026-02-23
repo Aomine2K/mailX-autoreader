@@ -1,0 +1,18 @@
+echo "loginAD;Nazwa Aplikacji;Login Konta w Aplikacji;Nazwa Uprawnienia;Login Konta przypisany do uprawnienia;Szczegółowy opis uprawnień" > monitor_import.csv && \
+oc get rolebinding -A -o json | \
+jq -r '
+.items[]
+| select(.roleRef.name | test("^system:") | not)
+| . as $rb
+| $rb.subjects[]?
+| select(.kind=="User")
+| [
+    .name,
+    "MONITOR",
+    .name,
+    $rb.roleRef.name,
+    (.name + "_" + $rb.roleRef.name),
+    ($rb.metadata.namespace + "\\" + $rb.roleRef.name)
+  ]
+| @csv
+' | sed 's/,/;/g' >> monitor_import.csv
