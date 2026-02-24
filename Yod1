@@ -1,0 +1,38 @@
+echo "loginAD;Aplikacja;Login w aplikacji;Nazwa uprawnienia;Login konta przypisanego;Szczegółowy opis uprawnień" > export.csv && \
+(
+  # ===== MONITOR (RoleBinding) =====
+  oc get rolebinding -A -o json | jq -r '
+    .items[]
+    | select(.roleRef.name | test("^system:") | not)
+    | . as $rb
+    | $rb.subjects[]?
+    | select(.kind=="User")
+    | [
+        .name,
+        "MONITOR",
+        .name,
+        (if ($rb.roleRef.name | test("pmz";"i")) then "MONITOR_PMZ" else "MONITOR_OCF" end),
+        .name,
+        ($rb.metadata.namespace + "\n" + $rb.roleRef.name)
+      ]
+    | @tsv
+  '
+
+  # ===== CLUSTER (ClusterRoleBinding) =====
+  oc get clusterrolebinding -o json | jq -r '
+    .items[]
+    | select(.roleRef.name | test("^system:") | not)
+    | . as $crb
+    | $crb.subjects[]?
+    | select(.kind=="User")
+    | [
+        .name,
+        "CLUSTER",
+        .name,
+        (if ($crb.roleRef.name | test("pmz";"i")) then "PASSWD_PMZ" else "PASSWD_OCF" end),
+        .name,
+        ("cluster\n" + $crb.roleRef.name)
+      ]
+    | @tsv
+  '
+) | sed 's/\t/;/g' >> export.csv
