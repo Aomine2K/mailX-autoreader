@@ -1,0 +1,65 @@
+echo "loginAD;Nazwa Aplikacji;Login Konta w Aplikacji;Nazwa Uprawnienia;Login Konta przypisany do uprawnienia;Szczegółowy opis uprawnień" > monitor_import.csv && \
+(
+  # ===== RoleBinding (projekty) =====
+  oc get rolebinding -A -o json | jq -r '
+    .items[]
+    | select(.roleRef.name | test("(system:|default|kube)") | not)
+    | . as $rb
+    | $rb.subjects[]?
+    | select(.kind=="User")
+    | [
+        .name,
+        $rb.roleRef.name,
+        ($rb.metadata.namespace + "\\n-" + $rb.roleRef.name + "\\n\\n")
+      ]
+    | @tsv
+  '
+
+  # ===== ClusterRoleBinding =====
+  oc get clusterrolebinding -o json | jq -r '
+    .items[]
+    | select(.roleRef.name | test("(system:|default|kube)") | not)
+    | . as $crb
+    | $crb.subjects[]?
+    | select(.kind=="User")
+    | [
+        .name,
+        $crb.roleRef.name,
+        ("cluster\\n-" + $crb.roleRef.name + "\\n\\n")
+      ]
+    | @tsv
+  '
+) | sort -u | \
+awk -F'\t' '
+{
+  key = $1 "|" $2
+
+  # 🔴 Jeśli pojawi się openshift-console-user-settings → tylko jedno "view"
+  if ($3 ~ /openshift-console-user-settings/) {
+    if (!has_view[key]) {
+      desc[key] = "view"
+      has_view[key] = 1
+    }
+    next
+  }
+
+  # 🔵 Jeśli już było view → nie dokładamy nic więcej
+  if (has_view[key]) {
+    next
+  }
+
+  desc[key] = desc[key] $3
+  user[key] = $1
+  role[key] = $2
+}
+END {
+  for (k in desc) {
+    printf "%s;MONITOR;%s;%s;%s;%s\n",
+           user[k],
+           user[k],
+           role[k],
+           user[k],
+           desc[k]
+  }
+}
+' >> monitor_import.csv
