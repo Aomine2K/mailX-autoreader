@@ -1,0 +1,35 @@
+awk -F'\t' '
+{
+  # ===== FILTR LOGIN AD =====
+  if ($1 ~ /^(system:|kube:|openshift)/) next
+  if ($1 == "default" || $1 == "monitor" || $1 == "anonymous") next
+
+  key = $1 "|" $2
+  user[key] = $1
+  role[key] = $2
+
+  if ($3 ~ /^openshift-console-user-settings/) {
+    has_view[key] = 1
+    desc[key] = "view"
+    next
+  }
+
+  if (has_view[key]) {
+    next
+  }
+
+  desc[key] = desc[key] $3
+}
+END {
+  for (k in desc) {
+    if (desc[k] == "" || desc[k] ~ /^[[:space:]]*$/) continue
+
+    printf "%s;MONITOR;%s;%s;%s;%s\n",
+           user[k],
+           user[k],
+           role[k],
+           user[k],
+           desc[k]
+  }
+}
+'
