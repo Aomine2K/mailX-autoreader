@@ -1,0 +1,92 @@
+echo "loginAD;Nazwa Aplikacji;Login Konta w Aplikacji;Nazwa Uprawnienia;Login Konta przypisany do uprawnienia;Szczegółowy opis uprawnień;TUX User" > OCFklaster_import.csv && \
+(
+  # ===== RoleBinding (projekty) =====
+  oc get rolebinding -A -o json | jq -r '
+    .items[]
+    | select(.roleRef.name | test("(system:|default|kube)") | not)
+    | . as $rb
+    | $rb.subjects[]?
+    | select(.kind=="User")
+    | [
+        .name,
+        $rb.roleRef.name,
+        ($rb.metadata.namespace + "\\n-" + $rb.roleRef.name + "\\n\\n")
+      ]
+    | @tsv
+  '
+
+  # ===== ClusterRoleBinding =====
+  oc get clusterrolebinding -o json | jq -r '
+    .items[]
+    | select(.roleRef.name | test("(system:|default|kube)") | not)
+    | . as $crb
+    | $crb.subjects[]?
+    | select(.kind=="User")
+    | [
+        .name,
+        $crb.roleRef.name,
+        ("cluster\\n-" + $crb.roleRef.name + "\\n\\n")
+      ]
+    | @tsv
+  '
+) | sort -u | \
+awk -F'\t' '
+
+BEGIN{
+  highlight["piotr.piotr"]
+}
+
+{
+  # ===== FILTR LOGIN AD =====
+  if ($1 ~ /^(system:|kube:|openshift|srv-nsmu-run|b2b-uw-a1-ch:default|ulibre|rafal.migas)/) next
+  if ($1 == "default" || $1 == "monitor" || $1 == "anonymous") next
+
+  user=$1
+  role=$2
+  desc=$3
+
+  key=user "|" role "|" NR
+
+  data_user[key]=user
+  data_role[key]=role
+  data_desc[key]=desc
+
+  if (desc ~ /^cluster\\n-view/) {
+     cluster_view[user]=1
+  }
+}
+
+END{
+
+  for (k in data_user){
+
+    login=data_user[k]
+    role=data_role[k]
+    desc=data_desc[k]
+
+    # openshift-console-user-settings -> view
+    if (desc ~ /openshift-console-user-settings/) {
+       desc="view"
+    }
+
+    # jeśli ma cluster view pomijamy project view
+    if (cluster_view[login] && desc ~ /\\n-view/ && desc !~ /^cluster\\n-view/) {
+        continue
+    }
+
+    if (desc == "" || desc ~ /^[[:space:]]*$/) continue
+
+    flag=""
+    if (login in highlight) flag="Tak"
+
+    printf "%s;KLASTER;%s;%s;%s;%s;%s\n",
+           login,
+           login,
+           role,
+           login,
+           desc,
+           flag
+  }
+
+}
+' >> OCFklaster_import.csv
