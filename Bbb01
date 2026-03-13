@@ -1,0 +1,88 @@
+echo "loginAD;Nazwa Aplikacji;Login Konta w Aplikacji;Nazwa Uprawnienia;Login Konta przypisany do uprawnienia;Szczegółowy opis uprawnień;TUX User" > OCFklaster_import.csv && \
+(
+  # ===== RoleBinding (projekty) =====
+  oc get rolebinding -A -o json | jq -r '
+    .items[]
+    | select(.roleRef.name | test("(system:|default|kube)") | not)
+    | . as $rb
+    | $rb.subjects[]?
+    | select(.kind=="User")
+    | [
+        .name,
+        $rb.roleRef.name,
+        ($rb.metadata.namespace + "\\n-" + $rb.roleRef.name + "\\n\\n")
+      ]
+    | @tsv
+  '
+
+  # ===== ClusterRoleBinding =====
+  oc get clusterrolebinding -o json | jq -r '
+    .items[]
+    | select(.roleRef.name | test("(system:|default|kube)") | not)
+    | . as $crb
+    | $crb.subjects[]?
+    | select(.kind=="User")
+    | [
+        .name,
+        $crb.roleRef.name,
+        ("cluster\\n-" + $crb.roleRef.name + "\\n\\n")
+      ]
+    | @tsv
+  '
+) | sort -u | \
+awk -F'\t' '
+
+BEGIN{
+  # ===== TUX USER =====
+  highlight["piotr.piotr"]
+
+
+{
+  # ===== FILTR LOGIN AD =====
+  if ($1 ~ /^(system:|kube:|openshift|srv-nsmu-run|b2b-uw-a1-ch:default|ulibre|rafal.migas|migasr|weremejenkow99ao)/) next
+  if ($1 == "default" || $1 == "monitor" || $1 == "anonymous") next
+
+  key = $1 "|" $2
+
+  # openshift-console-user-settings → view
+  if ($3 ~ /openshift-console-user-settings/) {
+    if (!has_view[key]) {
+      desc[key] = "view"
+      has_view[key] = 1
+    }
+    user[key] = $1
+    role[key] = $2
+    next
+  }
+
+  # jeśli już było view → nie dokładamy
+  if (has_view[key]) {
+    next
+  }
+
+  desc[key] = desc[key] $3
+  user[key] = $1
+  role[key] = $2
+}
+
+END {
+  for (k in desc) {
+
+    if (desc[k] == "" || desc[k] ~ /^[[:space:]]*$/) continue
+
+    login=user[k]
+
+    # ===== CZY WYRÓŻNIONY =====
+    flag=""
+    if (login in highlight) flag="Tak"
+
+    printf "%s;KLASTER_OCF;%s;%s;%s;%s;%s\n",
+           login,
+           login,
+           role[k],
+           login,
+           desc[k],
+           flag
+  }
+}
+' >> OCFklaster_import.csv
