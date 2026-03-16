@@ -1,0 +1,72 @@
+{
+  user=$1
+  role=$2
+  desc=$3
+
+  # ===== FILTRY =====
+  if (user ~ /^(system:|kube:|openshift|srv-nsmu-run|b2b-uw-a1-ch:default|ulibre|rafal.migas)/) next
+  if (user=="default" || user=="monitor" || user=="anonymous") next
+
+  # zapisujemy wszystkie role użytkownika
+  roles[user][role] = desc
+
+  # flagi jeśli użytkownik ma cluster-role
+  if (role == "cluster-admin") {
+    has_cluster_admin[user] = 1
+  } else if (desc ~ /^cluster\\n-view/) {
+    has_cluster_view[user] = 1
+  }
+}
+
+END{
+  for (user in roles){
+
+    flag=""
+    if (user in highlight) flag="Tak"
+
+    # jeśli cluster-admin → wypisujemy tylko ten wiersz
+    if (has_cluster_admin[user]) {
+      desc = roles[user]["cluster-admin"]
+      printf "%s;KLASTER;%s;%s;%s;%s;%s\n",
+             user,
+             user,
+             "cluster-admin",
+             user,
+             desc,
+             flag
+      continue
+    }
+
+    # jeśli cluster-view → wypisujemy tylko cluster-view
+    if (has_cluster_view[user]) {
+      for (r in roles[user]) {
+        desc = roles[user][r]
+        if (desc ~ /^cluster\\n-view/) {
+          printf "%s;KLASTER;%s;%s;%s;%s;%s\n",
+                 user,
+                 user,
+                 r,
+                 user,
+                 desc,
+                 flag
+        }
+      }
+      continue
+    }
+
+    # w przeciwnym wypadku wypisujemy wszystkie project-role
+    for (r in roles[user]) {
+      desc = roles[user][r]
+      if (desc ~ /^cluster\\n-view/) continue
+      printf "%s;KLASTER;%s;%s;%s;%s;%s\n",
+             user,
+             user,
+             r,
+             user,
+             desc,
+             flag
+    }
+
+  }
+}
+'
