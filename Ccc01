@@ -1,0 +1,53 @@
+awk -F'\t' '
+
+BEGIN{
+  highlight["piotr.piotr"]
+}
+
+{
+  user=$1
+  role=$2
+  desc=$3
+
+  if (user ~ /^(system:|kube:|openshift|srv-nsmu-run|b2b-uw-a1-ch:default|ulibre|rafal.migas)/) next
+  if (user=="default" || user=="monitor" || user=="anonymous") next
+
+  users[user]=1
+
+  roles[user,role,NR]=desc
+
+  if (desc ~ /^cluster\\n-view/) {
+     cluster_view[user]=1
+  }
+}
+
+END{
+
+  for (k in roles){
+
+    split(k,a,SUBSEP)
+    user=a[1]
+    role=a[2]
+
+    desc=roles[k]
+
+    if (cluster_view[user] && desc ~ /\\n-view/ && desc !~ /^cluster\\n-view/)
+        continue
+
+    if (desc=="" || desc ~ /^[[:space:]]*$/)
+        continue
+
+    flag=""
+    if (user in highlight) flag="Tak"
+
+    printf "%s;KLASTER;%s;%s;%s;%s;%s\n",
+           user,
+           user,
+           role,
+           user,
+           desc,
+           flag
+  }
+
+}
+'
