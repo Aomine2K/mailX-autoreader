@@ -1,0 +1,47 @@
+awk -F'\t' '
+
+{
+  user=$1
+  role=$2
+  desc=$3
+
+  # ===== FILTRY USERÓW =====
+  if (user ~ /^(system:|kube:|openshift|srv-nsmu-run|b2b-uw-a1-ch:default|ulibre|rafal.migas)/) next
+  if (user=="default" || user=="monitor" || user=="anonymous") next
+
+  id=NR
+
+  u[id]=user
+  r[id]=role
+  d[id]=desc
+
+  if (desc ~ /^cluster\\n-view/) {
+     cluster_view[user]=1
+  }
+}
+
+END{
+
+  for(i=1;i<=NR;i++){
+
+     user=u[i]
+     role=r[i]
+     desc=d[i]
+
+     # jeśli user ma cluster-view → pomijamy project-view
+     if(cluster_view[user] && desc ~ /\\n-view/ && desc !~ /^cluster\\n-view/)
+        continue
+
+     if(desc=="" || desc ~ /^[[:space:]]*$/)
+        continue
+
+     printf "%s;KLASTER;%s;%s;%s;%s;\n",
+        user,
+        user,
+        role,
+        user,
+        desc
+  }
+
+}
+'
