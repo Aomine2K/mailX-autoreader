@@ -1,0 +1,14 @@
+zapyt
+set isolation to dirty read;
+unload to wynik.unl
+select log_service_name serwis, log_username uzytkownik,
+avg(log_stop - log_start) czas_srednia,
+count(*) ilosc_wywolan
+from t_audit_log
+where log_start > '2026-03-19 10:30:00.001'
+and log_stop < '2026-03-19 13:30:00.000'
+and log_appcode in ('X','XXX')
+and log_username in ('45_XX','45_XX')
+group by log_service_name, log_username
+having avg(log_stop - log_start) > '0 00:00:00.500'
+order by 2 desc;
